@@ -1,18 +1,28 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
-  theme: {
-    extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
-      fontFamily: {
-        BMJUA: ["BMJUA"],
-      },
-    },
-  },
-  plugins: [],
+	content: [
+		'./src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/app/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/atoms/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/molecules/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/templates/**/*.{js,ts,jsx,tsx,mdx}',
+	],
+	theme: {
+		extend: {
+			fontFamily: {
+				BMJUA: ['BMJUA'],
+			},
+			colors: {
+				bgColor: '#F7F7F7',
+				pointColor: '#F34D52',
+				fontColor: '#3A3A3A',
+				positiveColor: '#6CA0D0',
+				negativeColor: '#FF6969',
+			},
+		},
+	},
+	plugins: [],
 };
 export default config;
