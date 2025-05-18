@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "BMJUA";
-  src: url("/public/fonts/BMJUA.woff2") format("woff2");
+  font-family: 'BMJUA';
+  src: url('/fonts/BMJUA.woff2') format('woff2');
   font-display: swap;
 }
