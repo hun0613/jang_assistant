@@ -8,7 +8,7 @@ const PageAtom: React.FC<PageAtomProps> = (props) => {
   return (
     <div
       className={mergeClassNames(
-        'relative max-w-[450px] w-full min-h-screen bg-bgColor shadow-layout font-BMJUA flex flex-col justify-start items-center',
+        'relative max-w-[450px] w-full min-h-screen bg-bgColor shadow-layout font-BMJUA flex flex-col justify-between items-center',
       )}
     >
       {children}
