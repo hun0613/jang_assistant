@@ -19,7 +19,7 @@ const ButtonAtom: React.FC<ButtonAtomProps> = (props) => {
     <button
       type="button"
       className={mergeClassNames(
-        'px-6 py-5 bg-pointColor text-white text-xl leading-none rounded-xl relative flex justify-center items-center',
+        'px-6 py-5 font-BMJUA bg-pointColor text-white text-xl leading-none rounded-xl relative flex justify-center items-center',
         {
           'bg-grayBtnColor text-white': color === BUTTON_COLOR.GRAY,
           'w-full': full,

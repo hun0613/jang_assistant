@@ -1,7 +1,17 @@
-import ButtonAtom, { BUTTON_COLOR } from '@/atoms/buttons/ButtonAtom';
+import ButtonAtom from '@/atoms/buttons/ButtonAtom';
+import { useRouter } from 'next/navigation';
 
 const GoToServiceButtonComp = () => {
-  return <ButtonAtom full>데모버전 체험하기</ButtonAtom>;
+  const router = useRouter();
+
+  const handleClickTrialBtn = () => {
+    router.push('/createCart');
+  };
+  return (
+    <ButtonAtom full onClick={handleClickTrialBtn}>
+      데모버전 체험하기
+    </ButtonAtom>
+  );
 };
 
 export default GoToServiceButtonComp;
