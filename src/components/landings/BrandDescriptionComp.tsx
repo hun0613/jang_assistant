@@ -75,7 +75,7 @@ const BrandDescriptionComp: React.FC<BrandDescriptionCompProps> = (props) => {
       </motion.p>
       {/* inActive mask */}
       {!active && (
-        <div className="w-full h-full bg-gradient-to-b from-white/80 to-white/100 z-50 absolute flex flex-col gap-3 justify-center items-center">
+        <div className="w-full h-full bg-gradient-to-b from-white/60 to-white/100 z-30 absolute flex flex-col gap-3 justify-center items-center">
           <Image src={'/images/logo.png'} width={70} height={40} alt="logo" className="opacity-80" />
           <p className="text-fontColor/80 text-xl">현재 준비중입니다!</p>
         </div>

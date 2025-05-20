@@ -20,6 +20,8 @@ const config: Config = {
         fontColor: '#3A3A3A',
         positiveColor: '#6CA0D0',
         negativeColor: '#FF6969',
+        grayBtnColor: '#9D9D9D',
+        disabledBtnColor: '#E4E4E4',
       },
       boxShadow: {
         layout: '0px 4px 20px 0px rgba(197, 197, 197, 1)',

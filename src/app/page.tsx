@@ -1,10 +1,15 @@
+'use client';
+
 import BrandDescriptionComp from '@/components/landings/BrandDescriptionComp';
+import EndingComp from '@/components/landings/EndingComp';
+import GoToServiceButtonComp from '@/components/landings/GoToServiceButtonComp';
 import TitleComp from '@/components/landings/TitleComp';
 import { mergeClassNames } from '@/utils/domUtil';
+import { motion } from 'motion/react';
 
 export default function Home() {
   return (
-    <div className={mergeClassNames('w-full min-h-[calc(100vh-97px)] flex flex-col')}>
+    <div className={mergeClassNames('w-full min-h-[calc(100vh-97px)] flex flex-col pb-28')}>
       <TitleComp />
       <BrandDescriptionComp
         className="bg-gradient-to-b from-pointColor/80 to-pointColor/60 text-white"
@@ -29,10 +34,22 @@ export default function Home() {
         description="이번 달 지출 현황부터 최근 6개월 소비 패턴까지 한눈에! 지출 데이터 시각화로 계획적인 소비 습관을 도와드려요."
         active={false}
       />
-      {/* <div className="h-48 border-b">AssistantDescriptionComp</div> */}
-      {/* <div className="h-48 border-b">CartDescriptionComp</div> */}
-      {/* <div className="h-48 border-b">ExpenseDescriptionComp</div> */}
-      {/* <div className="h-48 border-b">ConclusionComp</div> */}
+      <div className="flex flex-col justify-center items-center gap-10 pt-28 pb-10 px-10">
+        <EndingComp />
+      </div>
+      <motion.div
+        viewport={{ amount: 0.1 }}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.6,
+          duration: 0.8,
+          y: { type: 'spring', delay: '0.6' },
+        }}
+        className="w-full sticky bottom-8 z-50 px-10"
+      >
+        <GoToServiceButtonComp />
+      </motion.div>
     </div>
   );
 }
