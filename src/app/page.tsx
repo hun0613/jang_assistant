@@ -24,7 +24,7 @@ export default function Home() {
         title="효율적인 장보기 생활!"
         src="/images/cartListExample.png"
         description="요리 주제나 상황에 맞춰 장바구니를 나눠 관리할 수 있어 필요한 재료를 빠짐없이 효율적으로 준비할 수 있어요!"
-        active={false}
+        // active={false}
       />
       <BrandDescriptionComp
         className="bg-gradient-to-b from-pointColor/80 to-pointColor/60 text-white"
@@ -32,7 +32,7 @@ export default function Home() {
         title="가계부 관리도 한번에!"
         src="/images/expenseExample.png"
         description="이번 달 지출 현황부터 최근 6개월 소비 패턴까지 한눈에! 지출 데이터 시각화로 계획적인 소비 습관을 도와드려요."
-        active={false}
+        // active={false}
       />
       <div className="flex flex-col justify-center items-center gap-10 pt-28 pb-10 px-10">
         <EndingComp />

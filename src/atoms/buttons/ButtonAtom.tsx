@@ -1,4 +1,5 @@
 import { mergeClassNames } from '@/utils/domUtil';
+import Image from 'next/image';
 
 export enum BUTTON_COLOR {
   POINT = 'POINT',
@@ -18,7 +19,7 @@ const ButtonAtom: React.FC<ButtonAtomProps> = (props) => {
     <button
       type="button"
       className={mergeClassNames(
-        'px-6 py-4 bg-pointColor text-white text-xl rounded-xl',
+        'px-6 py-5 bg-pointColor text-white text-xl leading-none rounded-xl relative flex justify-center items-center',
         {
           'bg-grayBtnColor text-white': color === BUTTON_COLOR.GRAY,
           'w-full': full,
@@ -28,6 +29,7 @@ const ButtonAtom: React.FC<ButtonAtomProps> = (props) => {
       )}
       {...rest}
     >
+      {!!imageSrc && <Image src={imageSrc} className="absolute left-5" width={30} height={40} alt="logo" />}
       {children}
     </button>
   );
