@@ -1,11 +1,8 @@
-'use client';
-
 import BrandDescriptionComp from '@/components/landings/BrandDescriptionComp';
 import EndingComp from '@/components/landings/EndingComp';
 import GoToServiceButtonComp from '@/components/landings/GoToServiceButtonComp';
 import TitleComp from '@/components/landings/TitleComp';
 import { mergeClassNames } from '@/utils/domUtil';
-import { motion } from 'motion/react';
 
 export default function Home() {
   return (
@@ -37,19 +34,7 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center gap-10 pt-28 pb-10 px-10">
         <EndingComp />
       </div>
-      <motion.div
-        viewport={{ amount: 0.1 }}
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{
-          delay: 0.6,
-          duration: 0.8,
-          y: { type: 'spring', delay: '0.6' },
-        }}
-        className="w-full sticky bottom-8 z-50 px-10"
-      >
-        <GoToServiceButtonComp />
-      </motion.div>
+      <GoToServiceButtonComp />
     </div>
   );
 }

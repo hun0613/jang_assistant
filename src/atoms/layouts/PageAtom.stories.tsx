@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import PageAtom from './PageAtom';
 
 const meta: Meta<typeof PageAtom> = {
-  title: 'Atomic/Layout',
+  title: 'Atomic/Layout/Page',
   component: PageAtom,
   tags: ['autodocs'],
 };
