@@ -10,14 +10,15 @@ export type ButtonAtomProps = {
   imageSrc?: string;
   color?: BUTTON_COLOR;
   full?: boolean;
+  type?: 'button' | 'submit';
 } & JSX.IntrinsicElements['button'];
 
 const ButtonAtom: React.FC<ButtonAtomProps> = (props) => {
-  const { imageSrc, color = BUTTON_COLOR.POINT, full = false, children, className, disabled, ...rest } = props;
+  const { imageSrc, color = BUTTON_COLOR.POINT, full = false, children, className, disabled, type = 'button', ...rest } = props;
 
   return (
     <button
-      type="button"
+      type={type}
       className={mergeClassNames(
         'px-6 py-5 font-BMJUA bg-pointColor text-white text-xl leading-none rounded-xl relative flex justify-center items-center',
         {

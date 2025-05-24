@@ -1,39 +1,39 @@
 import { Meta, StoryObj } from '@storybook/react';
 import SectionAtom from '../layouts/SectionAtom';
-import InputAtom from './InputAtom';
+import TextAreaAtom from './TextAreaAtom';
 import { useForm } from 'react-hook-form';
 
-const meta: Meta<typeof InputAtom> = {
-  title: 'Atomic/Form/Input',
-  component: InputAtom,
+const meta: Meta<typeof TextAreaAtom> = {
+  title: 'Atomic/Form/TextArea',
+  component: TextAreaAtom,
   tags: ['autodocs'],
 };
 
 export default meta;
-type InputAtomStory = StoryObj<typeof InputAtom>;
+type TextAreaAtomStory = StoryObj<typeof TextAreaAtom>;
 
 type Inputs = {
-  title: string;
+  memo: string;
 };
 
 const InputForm = (args: any) => {
   const { register, watch } = useForm<Inputs>({
-    defaultValues: { title: '' },
+    defaultValues: { memo: '' },
   });
 
   return (
     <>
       <SectionAtom>
-        <InputAtom {...args} register={{ ...register('title') }} value={watch('title')} />
+        <TextAreaAtom {...args} register={{ ...register('memo') }} value={watch('memo')} />
       </SectionAtom>
     </>
   );
 };
 
-export const Primary: InputAtomStory = {
+export const Primary: TextAreaAtomStory = {
   render: (args) => <InputForm {...args} />,
   args: {
     placeholder: '제목을 입력하세요.',
-    maxLength: 20,
+    maxLength: 100,
   },
 };
