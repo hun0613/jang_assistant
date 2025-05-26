@@ -6,23 +6,43 @@ export enum BUTTON_COLOR {
   GRAY = 'GRAY',
 }
 
+export enum BUTTON_SIZE {
+  SMALL = 'SMALL',
+  MEDIUM = 'MEDIUM',
+  LARGE = 'LARGE',
+}
+
 export type ButtonAtomProps = {
   imageSrc?: string;
   color?: BUTTON_COLOR;
   full?: boolean;
   type?: 'button' | 'submit';
+  size?: BUTTON_SIZE;
 } & JSX.IntrinsicElements['button'];
 
 const ButtonAtom: React.FC<ButtonAtomProps> = (props) => {
-  const { imageSrc, color = BUTTON_COLOR.POINT, full = false, children, className, disabled, type = 'button', ...rest } = props;
+  const {
+    imageSrc,
+    color = BUTTON_COLOR.POINT,
+    full = false,
+    size = BUTTON_SIZE.MEDIUM,
+    children,
+    className,
+    disabled,
+    type = 'button',
+    ...rest
+  } = props;
 
   return (
     <button
       type={type}
       className={mergeClassNames(
-        'px-6 py-5 font-BMJUA bg-pointColor text-white text-xl leading-none rounded-xl relative flex justify-center items-center',
+        'px-6 font-BMJUA bg-pointColor text-white text-xl leading-none rounded-xl relative flex justify-center items-center',
         {
           'bg-grayBtnColor text-white': color === BUTTON_COLOR.GRAY,
+          'py-3': size === BUTTON_SIZE.SMALL,
+          'py-4': size === BUTTON_SIZE.MEDIUM,
+          'py-5': size === BUTTON_SIZE.LARGE,
           'w-full': full,
           'bg-disabledBtnColor pointer-events-none': disabled,
         },

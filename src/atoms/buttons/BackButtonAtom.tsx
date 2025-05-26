@@ -12,7 +12,7 @@ const BackButtonAtom: React.FC<BackButtonAtomProps> = (props) => {
   };
 
   return (
-    <button className={mergeClassNames('w-fit h-fit', className)} onClick={handleGoToBack} {...rest}>
+    <button type="button" className={mergeClassNames('w-fit h-fit', className)} onClick={handleGoToBack} {...rest}>
       <Image src={'/images/arrowBack.png'} width={30} height={30} alt="backBtn" />
     </button>
   );
