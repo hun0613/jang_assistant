@@ -6,6 +6,7 @@ import EraseButtonAtom from '@/atoms/buttons/EraseButtonAtom';
 import ButtonAtom from '@/atoms/buttons/ButtonAtom';
 import PopupAtom from '@/atoms/popups/PopupAtom';
 import usePopup from '@/hooks/popup/usePopup';
+import AddCartItemModalComp from './AddCartItemModalComp';
 
 type CartItemListCompProps = {} & JSX.IntrinsicElements['div'];
 
@@ -36,10 +37,7 @@ const CartItemListComp: React.FC<CartItemListCompProps> = (props) => {
           + 품목 추가
         </ButtonAtom>
       </div>
-      <PopupAtom open={open} handleOpen={handleOpen} handleClose={handleClose}>
-        {/* TODO */}
-        hello
-      </PopupAtom>
+      <AddCartItemModalComp open={open} handleOpen={handleOpen} handleClose={handleClose} />
     </>
   );
 };

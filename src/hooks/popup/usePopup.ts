@@ -11,8 +11,12 @@ const usePopup = (options: UsePopupParams = { open: false }): { open: boolean; h
   const [open, setOpen] = useState(options.open);
 
   const handleOpen = (): void => {
-    if (!open) {
-      const url = new URL(getWindow()?.location.href || '');
+    const window = getWindow();
+
+    if (!open && !!window) {
+      const url = new URL(window.location.href || '');
+
+      window.document.body.style.overflow = 'hidden';
 
       url.hash = `modal${popupId}`;
       getWindow()?.history.pushState(getWindow()?.history.state, '', url);
@@ -36,6 +40,7 @@ const usePopup = (options: UsePopupParams = { open: false }): { open: boolean; h
   const handleClose = (): void => {
     const window = getWindow();
     if (window && open) {
+      window.document.body.style.overflow = '';
       window.history.back();
     }
   };

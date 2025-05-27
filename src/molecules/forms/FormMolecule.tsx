@@ -1,16 +1,15 @@
 import LabelAtom from '@/atoms/forms/LabelAtom';
-import SectionAtom from '@/atoms/layouts/SectionAtom';
 
-type FormMolecule = {} & React.ComponentProps<typeof LabelAtom>;
+type FormMoleculeProps = {} & React.ComponentProps<typeof LabelAtom>;
 
-const FormMolecule: React.FC<FormMolecule> = (props) => {
+const FormMolecule: React.FC<FormMoleculeProps> = (props) => {
   const { title, description, required, children } = props;
 
   return (
-    <SectionAtom>
+    <div className="w-full flex flex-col gap-2">
       <LabelAtom title={title} description={description} required={required} />
       {children}
-    </SectionAtom>
+    </div>
   );
 };
 export default FormMolecule;
