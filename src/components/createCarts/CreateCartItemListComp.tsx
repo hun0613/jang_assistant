@@ -1,18 +1,22 @@
-import { mergeClassNames } from '@/utils/domUtil';
 import CartListHeaderAtom from '../../atoms/carts/CartListHeaderAtom';
 import CartListItemAtom from '@/atoms/carts/CartListItemAtom';
-import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import EraseButtonAtom from '@/atoms/buttons/EraseButtonAtom';
 import ButtonAtom from '@/atoms/buttons/ButtonAtom';
-import PopupAtom from '@/atoms/popups/PopupAtom';
-import usePopup from '@/hooks/popup/usePopup';
 import AddCartItemModalComp from './AddCartItemModalComp';
+import usePopup from '@/hooks/popup/usePopup';
+import { CartItemType } from '@/types/carts/cartType';
+import Image from 'next/image';
 
-type CartItemListCompProps = {} & JSX.IntrinsicElements['div'];
+type CartItemListCompProps = {
+  cartItems: CartItemType[];
+  addItem: (item: CartItemType) => void;
+  removeItem: (index: number) => void;
+} & JSX.IntrinsicElements['div'];
 
 const CartItemListComp: React.FC<CartItemListCompProps> = (props) => {
-  const { className } = props;
-  const { open, handleOpen, handleClose } = usePopup({ id: 'createCartPopup' });
+  const { cartItems, addItem, removeItem } = props;
+
+  const { open, handleOpen, handleClose } = usePopup({ id: 'addCartItemModal' });
 
   const handleOpenAddItemPopup = () => {
     handleOpen();
@@ -22,22 +26,23 @@ const CartItemListComp: React.FC<CartItemListCompProps> = (props) => {
     <>
       <div className="w-full flex flex-col gap-4">
         <CartListHeaderAtom className="pr-12" />
-        <div className="flex justify-between items-center gap-2">
-          <CartListItemAtom
-            cartItem={{
-              id: 1,
-              name: '아스파라거스',
-              quantity: 2,
-              status: CART_ITEM_STATUS.IN_LIST,
-            }}
-          />
-          <EraseButtonAtom />
-        </div>
+        {cartItems.length === 0 && (
+          <div className="flex flex-col justify-center items-center gap-2">
+            <Image src={'/images/logo.png'} width={40} height={40} alt="logo" className="opacity-50" />
+            <p className="text-fontColor/50 text-lg">품목을 추가해주세요!</p>
+          </div>
+        )}
+        {cartItems.map((item, index) => (
+          <div key={item.id} className="flex justify-between items-center gap-2">
+            <CartListItemAtom className="pointer-events-none" cartItem={item} />
+            <EraseButtonAtom onClick={() => removeItem(index)} />
+          </div>
+        ))}
         <ButtonAtom onClick={handleOpenAddItemPopup} full className="bg-pointColor/80">
           + 품목 추가
         </ButtonAtom>
       </div>
-      <AddCartItemModalComp open={open} handleOpen={handleOpen} handleClose={handleClose} />
+      <AddCartItemModalComp addItem={addItem} open={open} handleOpen={handleOpen} handleClose={handleClose} />
     </>
   );
 };

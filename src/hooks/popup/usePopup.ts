@@ -18,7 +18,7 @@ const usePopup = (options: UsePopupParams = { open: false }): { open: boolean; h
 
       window.document.body.style.overflow = 'hidden';
 
-      url.hash = `modal${popupId}`;
+      url.hash = `${popupId}`;
       getWindow()?.history.pushState(getWindow()?.history.state, '', url);
       getWindow()?.removeEventListener('hashchange', handleHashChange);
       getWindow()?.addEventListener('hashchange', handleHashChange);
@@ -29,7 +29,7 @@ const usePopup = (options: UsePopupParams = { open: false }): { open: boolean; h
   const handleHashChange = useCallback(
     (e: any) => {
       const url = new URL(e.oldURL || '');
-      if (url.hash === `#modal${popupId}`) {
+      if (url.hash === `#${popupId}`) {
         getWindow()?.removeEventListener('hashchange', handleHashChange);
         setOpen(false);
       }

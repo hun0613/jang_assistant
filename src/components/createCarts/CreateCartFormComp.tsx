@@ -23,7 +23,6 @@ const CreateCartFormComp = () => {
     },
   });
 
-  //   ListComp에 control을 props로 넘겨 내부에서 처리
   const {
     fields: cartItems,
     append,
@@ -43,8 +42,8 @@ const CreateCartFormComp = () => {
         <FormSectionMolecule title={'장바구니 이름'} description={'품목이나 방문할 매장을 고려해서 지어주세요!'} required={true}>
           <InputAtom register={{ ...register('title') }} placeholder="장바구니 이름을 입력하세요." maxLength={20} value={watch('title')} />
         </FormSectionMolecule>
-        <FormSectionMolecule title={'사야 할 것'} description={'각 품목을 클릭하여 수정 및 제거할 수 있어요!'} required={true}>
-          <CreateCartItemListComp />
+        <FormSectionMolecule title={'사야 할 것'} description={'품목 추가 버튼을 눌러 품명과 수량을 입력해주세요!'} required={true}>
+          <CreateCartItemListComp cartItems={cartItems} addItem={append} removeItem={remove} />
         </FormSectionMolecule>
         <FormSectionMolecule title={'메모'} description={'장볼 때 참고해야 할 내용을 입력하세요!'}>
           <TextAreaAtom register={{ ...register('memo') }} placeholder="내용을 입력하세요." maxLength={100} value={watch('memo')} />
