@@ -19,7 +19,7 @@ export type CartItemInput = {
 const AddCartItemModalComp: React.FC<AddCartItemModalCompProps> = (props) => {
   const { addItem, open, handleClose, handleOpen, children, ...rest } = props;
 
-  const { register, setValue, watch, reset } = useForm<CartItemInput>({
+  const { register, setValue, watch, resetField } = useForm<CartItemInput>({
     defaultValues: {
       name: '',
       quantity: 1,
@@ -27,14 +27,22 @@ const AddCartItemModalComp: React.FC<AddCartItemModalCompProps> = (props) => {
   });
 
   const handleAddCartItem = () => {
-    addItem({
+    const item: CartItemType = {
       id: Date.now(), // 임시 ID 생성
       name: watch('name'),
       quantity: watch('quantity'),
       status: CART_ITEM_STATUS.IN_LIST, // 기본 상태 설정
-    });
+    };
 
-    reset();
+    addItem(item);
+
+    // localStorage
+    const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    cartItems.push(item);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+    resetField('name');
+    resetField('quantity');
     handleClose();
   };
 

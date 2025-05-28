@@ -17,9 +17,9 @@ export type CreateCartInput = {
 const CreateCartFormComp = () => {
   const { register, watch, handleSubmit, control } = useForm<CreateCartInput>({
     defaultValues: {
-      title: '',
-      memo: '',
-      items: [],
+      title: localStorage.getItem('title') || '',
+      memo: localStorage.getItem('memo') || '',
+      items: JSON.parse(localStorage.getItem('cartItems') || '[]'),
     },
   });
 
@@ -36,17 +36,43 @@ const CreateCartFormComp = () => {
     console.log('장바구니 생성:', data);
   };
 
+  const handleBlurTitleInput = () => {
+    localStorage.setItem('title', watch('title'));
+  };
+
+  const handleBlurMemoInput = () => {
+    localStorage.setItem('memo', watch('memo'));
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(handleStartShopping)} className="flex flex-col gap-5">
         <FormSectionMolecule title={'장바구니 이름'} description={'품목이나 방문할 매장을 고려해서 지어주세요!'} required={true}>
-          <InputAtom register={{ ...register('title') }} placeholder="장바구니 이름을 입력하세요." maxLength={20} value={watch('title')} />
+          <InputAtom
+            register={{
+              ...register('title', {
+                onBlur: handleBlurTitleInput,
+              }),
+            }}
+            placeholder="장바구니 이름을 입력하세요."
+            maxLength={20}
+            value={watch('title')}
+          />
         </FormSectionMolecule>
         <FormSectionMolecule title={'사야 할 것'} description={'품목 추가 버튼을 눌러 품명과 수량을 입력해주세요!'} required={true}>
           <CreateCartItemListComp cartItems={cartItems} addItem={append} removeItem={remove} />
         </FormSectionMolecule>
         <FormSectionMolecule title={'메모'} description={'장볼 때 참고해야 할 내용을 입력하세요!'}>
-          <TextAreaAtom register={{ ...register('memo') }} placeholder="내용을 입력하세요." maxLength={100} value={watch('memo')} />
+          <TextAreaAtom
+            register={{
+              ...register('memo', {
+                onBlur: handleBlurMemoInput,
+              }),
+            }}
+            placeholder="내용을 입력하세요."
+            maxLength={100}
+            value={watch('memo')}
+          />
         </FormSectionMolecule>
         <ButtonAtom type="submit" full disabled={!watch('title') || cartItems.length === 0}>
           장보기 시작하기

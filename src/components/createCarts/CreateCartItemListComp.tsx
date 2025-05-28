@@ -22,6 +22,14 @@ const CartItemListComp: React.FC<CartItemListCompProps> = (props) => {
     handleOpen();
   };
 
+  const handleDeleteItem = (index: number) => {
+    removeItem(index);
+    // localStorage에서 해당 품목 제거
+    const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    cartItems.splice(index, 1);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  };
+
   return (
     <>
       <div className="w-full flex flex-col gap-4">
@@ -35,7 +43,7 @@ const CartItemListComp: React.FC<CartItemListCompProps> = (props) => {
         {cartItems.map((item, index) => (
           <div key={item.id} className="flex justify-between items-center gap-2">
             <CartListItemAtom className="pointer-events-none" cartItem={item} />
-            <EraseButtonAtom onClick={() => removeItem(index)} />
+            <EraseButtonAtom onClick={() => handleDeleteItem(index)} />
           </div>
         ))}
         <ButtonAtom onClick={handleOpenAddItemPopup} full className="bg-pointColor/80">

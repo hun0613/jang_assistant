@@ -11,6 +11,7 @@ const InputAtom: React.FC<InputAtomProps> = (props) => {
   return (
     <div className="w-full flex flex-col gap-2">
       <input
+        {...rest}
         type="text"
         maxLength={maxLength}
         className="w-full text-lg bg-bgColor p-3 rounded-xl font-BMJUA outline-none"
