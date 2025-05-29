@@ -7,6 +7,8 @@ import FormSectionMolecule from '@/molecules/forms/FormSectionMolecule';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import CreateCartItemListComp from './CreateCartItemListComp';
 import { CartItemType } from '@/types/carts/cartType';
+import { localStorageUtil } from '@/utils/storageUtil';
+import { useEffect } from 'react';
 
 export type CreateCartInput = {
   title: string;
@@ -15,11 +17,11 @@ export type CreateCartInput = {
 };
 
 const CreateCartFormComp = () => {
-  const { register, watch, handleSubmit, control } = useForm<CreateCartInput>({
+  const { register, watch, handleSubmit, control, reset } = useForm<CreateCartInput>({
     defaultValues: {
-      title: localStorage.getItem('title') || '',
-      memo: localStorage.getItem('memo') || '',
-      items: JSON.parse(localStorage.getItem('cartItems') || '[]'),
+      title: '',
+      memo: '',
+      items: [],
     },
   });
 
@@ -37,12 +39,20 @@ const CreateCartFormComp = () => {
   };
 
   const handleBlurTitleInput = () => {
-    localStorage.setItem('title', watch('title'));
+    localStorageUtil.set('title', watch('title'));
   };
 
   const handleBlurMemoInput = () => {
-    localStorage.setItem('memo', watch('memo'));
+    localStorageUtil.set('memo', watch('memo'));
   };
+
+  useEffect(() => {
+    const title = localStorageUtil.get('title') || '';
+    const memo = localStorageUtil.get('memo') || '';
+    const items = (localStorageUtil.getArray('cartItems') as CartItemType[]) || [];
+
+    reset({ title, memo, items });
+  }, []);
 
   return (
     <>

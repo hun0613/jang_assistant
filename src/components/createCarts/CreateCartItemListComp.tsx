@@ -6,6 +6,7 @@ import AddCartItemModalComp from './AddCartItemModalComp';
 import usePopup from '@/hooks/popup/usePopup';
 import { CartItemType } from '@/types/carts/cartType';
 import Image from 'next/image';
+import { localStorageUtil } from '@/utils/storageUtil';
 
 type CartItemListCompProps = {
   cartItems: CartItemType[];
@@ -25,9 +26,9 @@ const CartItemListComp: React.FC<CartItemListCompProps> = (props) => {
   const handleDeleteItem = (index: number) => {
     removeItem(index);
     // localStorage에서 해당 품목 제거
-    const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    const cartItems = localStorageUtil.getArray('cartItems') || [];
     cartItems.splice(index, 1);
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    localStorageUtil.setObject('cartItems', cartItems);
   };
 
   return (

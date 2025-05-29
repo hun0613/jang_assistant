@@ -5,6 +5,7 @@ import PopupAtom from '@/atoms/popups/PopupAtom';
 import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import FormMolecule from '@/molecules/forms/FormMolecule';
 import { CartItemType } from '@/types/carts/cartType';
+import { localStorageUtil } from '@/utils/storageUtil';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 type AddCartItemModalCompProps = {
@@ -37,9 +38,9 @@ const AddCartItemModalComp: React.FC<AddCartItemModalCompProps> = (props) => {
     addItem(item);
 
     // localStorage
-    const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    const cartItems = localStorageUtil.getArray('cartItems');
     cartItems.push(item);
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    localStorageUtil.setObject('cartItems', cartItems);
 
     resetField('name');
     resetField('quantity');
