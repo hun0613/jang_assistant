@@ -20,7 +20,7 @@ export type CartItemInput = {
 const AddCartItemModalComp: React.FC<AddCartItemModalCompProps> = (props) => {
   const { addItem, open, handleClose, handleOpen, children, ...rest } = props;
 
-  const { register, setValue, watch, resetField } = useForm<CartItemInput>({
+  const { register, setValue, watch, reset } = useForm<CartItemInput>({
     defaultValues: {
       name: '',
       quantity: 1,
@@ -42,8 +42,7 @@ const AddCartItemModalComp: React.FC<AddCartItemModalCompProps> = (props) => {
     cartItems.push(item);
     localStorageUtil.setObject('cartItems', cartItems);
 
-    resetField('name');
-    resetField('quantity');
+    reset({ name: '', quantity: 1 });
     handleClose();
   };
 
