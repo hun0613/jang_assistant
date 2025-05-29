@@ -52,7 +52,7 @@ const CreateCartFormComp = () => {
     const items = (localStorageUtil.getArray('cartItems') as CartItemType[]) || [];
 
     reset({ title, memo, items });
-  }, []);
+  }, [reset]);
 
   return (
     <>

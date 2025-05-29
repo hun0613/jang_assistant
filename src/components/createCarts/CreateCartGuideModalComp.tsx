@@ -22,7 +22,7 @@ const CreateCartGuideModalComp = () => {
 
   useEffect(() => {
     handleOpenGuide();
-  }, []);
+  }, [handleOpenGuide]);
 
   const handleConfirm = () => {
     localStorageUtil.set('createCartGuideShown', Date.now().toString());
@@ -44,7 +44,7 @@ const CreateCartGuideModalComp = () => {
           <p className="text-fontColor/60 text-center">
             장보기 시작 전에 리스트를 미리 입력해두고,
             <br />
-            필요할 때 '장보기 시작' 버튼을 눌러주세요 ☺️
+            필요할 때 &apos;장보기 시작&apos; 버튼을 눌러주세요 ☺️
           </p>
         </div>
         <ButtonAtom full onClick={handleConfirm}>
