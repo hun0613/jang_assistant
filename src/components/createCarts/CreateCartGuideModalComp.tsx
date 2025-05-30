@@ -30,7 +30,7 @@ const CreateCartGuideModalComp = () => {
   };
 
   return (
-    <PopupAtom open={open} handleClose={handleConfirm} handleOpen={handleOpen}>
+    <PopupAtom open={open} handleClose={handleConfirm} handleOpen={handleOpen} closeOnBackdropClick={false}>
       <div className="w-full flex flex-col justify-center items-center gap-8">
         <Image src={'/images/logo.png'} width={50} height={40} alt="logo" />
         <div className="w-full flex flex-col justify-center items-center gap-5">
