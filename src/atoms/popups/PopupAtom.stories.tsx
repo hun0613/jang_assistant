@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import PopupAtom from './PopupAtom';
+import PopupAtom, { PopupActionWrapperAtom } from './PopupAtom';
 import ButtonAtom from '../buttons/ButtonAtom';
 import PageAtom from '../layouts/PageAtom';
 import usePopup from '@/hooks/popup/usePopup';
@@ -13,24 +13,23 @@ const meta: Meta<typeof PopupAtom> = {
 export default meta;
 type PopupAtomStory = StoryObj<typeof PopupAtom>;
 
-type Inputs = {
-  title: string;
-};
-
 const PopupTemplates = (args: any) => {
   const { open, handleOpen, handleClose } = usePopup({ id: 'popup' });
 
   const handleClickOpen = () => {
-    if (!open) {
-      handleOpen();
-    }
+    handleOpen();
   };
 
   return (
     <div className="w-full flex justify-center items-center">
       <PageAtom>
         <PopupAtom open={open} handleClose={handleClose} handleOpen={handleOpen}>
-          popup
+          <h1 className="text-center">popup</h1>
+          <PopupActionWrapperAtom>
+            <ButtonAtom full onClick={() => handleClose()}>
+              닫기
+            </ButtonAtom>
+          </PopupActionWrapperAtom>
         </PopupAtom>
         <ButtonAtom onClick={handleClickOpen}>팝업</ButtonAtom>
       </PageAtom>

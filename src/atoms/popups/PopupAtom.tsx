@@ -1,3 +1,7 @@
+'use client';
+
+import { mergeClassNames } from '@/utils/domUtil';
+
 type PopupAtomProps = {
   open: boolean;
   handleOpen: () => void;
@@ -29,3 +33,15 @@ const PopupAtom: React.FC<PopupAtomProps> = (props) => {
 };
 
 export default PopupAtom;
+
+type PopupActionWrapperAtomProps = {} & JSX.IntrinsicElements['div'];
+
+export const PopupActionWrapperAtom: React.FC<PopupActionWrapperAtomProps> = (props) => {
+  const { children, className, ...rest } = props;
+
+  return (
+    <div className={mergeClassNames('w-full flex gap-4', className)} {...rest}>
+      {children}
+    </div>
+  );
+};

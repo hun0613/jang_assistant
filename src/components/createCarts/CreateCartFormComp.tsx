@@ -9,6 +9,8 @@ import CreateCartItemListComp from './CreateCartItemListComp';
 import { CartItemType } from '@/types/carts/cartType';
 import { localStorageUtil } from '@/utils/storageUtil';
 import { useEffect } from 'react';
+import usePopup from '@/hooks/popup/usePopup';
+import StartShoppingGuideModalComp from './StartShoppingGuideModalComp';
 
 export type CreateCartInput = {
   title: string;
@@ -34,8 +36,11 @@ const CreateCartFormComp = () => {
     name: 'items',
   });
 
+  const { open, handleClose, handleOpen } = usePopup({ id: 'startShoppingGuideModal' });
+
   const handleStartShopping: SubmitHandler<CreateCartInput> = (data) => {
     console.log('장바구니 생성:', data);
+    handleOpen();
   };
 
   const handleBlurTitleInput = () => {
@@ -88,6 +93,7 @@ const CreateCartFormComp = () => {
           장보기 시작하기
         </ButtonAtom>
       </form>
+      <StartShoppingGuideModalComp open={open} handleClose={handleClose} handleOpen={handleOpen} />
     </>
   );
 };

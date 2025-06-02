@@ -26,6 +26,7 @@ const config: Config = {
       boxShadow: {
         layout: '0px 4px 20px 0px rgba(197, 197, 197, 1)',
         item: '0px 4px 10px 0px rgba(0, 0, 0, 0.3)',
+        icon: '0px 0px 4px 0px rgba(0, 0, 0, 0.25)',
       },
     },
   },

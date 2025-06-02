@@ -3,6 +3,7 @@ import './globals.css';
 import PageAtom from '@/atoms/layouts/PageAtom';
 import Header from '@/components/layouts/Header';
 import Footer from '@/components/layouts/Footer';
+import RouteHandler from '@/components/navigations/RouteHandlerComp';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,14 +16,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={'flex justify-center items-center'}>
-        <PageAtom>
-          <Header />
-          {children}
-          <Footer />
-        </PageAtom>
-      </body>
-    </html>
+    <>
+      <RouteHandler />
+      <html lang="en">
+        <body className={'flex justify-center items-center'}>
+          <PageAtom>
+            <Header />
+            {children}
+            <Footer />
+          </PageAtom>
+        </body>
+      </html>
+    </>
   );
 }
