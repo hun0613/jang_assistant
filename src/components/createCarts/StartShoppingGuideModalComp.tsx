@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 
 type StartShoppingGuideModalProps = {} & React.ComponentProps<typeof PopupAtom>;
 
+const TIMER_SECONDS = 5;
+
 const StartShoppingGuideModalComp: React.FC<StartShoppingGuideModalProps> = (props) => {
   const { open, handleClose, handleOpen, children, ...rest } = props;
   const [seconds, setSeconds] = useState(999);
@@ -21,7 +23,7 @@ const StartShoppingGuideModalComp: React.FC<StartShoppingGuideModalProps> = (pro
 
   useEffect(() => {
     if (!open) return;
-    setSeconds(5);
+    setSeconds(TIMER_SECONDS);
     const timer = setInterval(() => {
       setSeconds((prev) => {
         if (prev <= 1) {
@@ -49,7 +51,7 @@ const StartShoppingGuideModalComp: React.FC<StartShoppingGuideModalProps> = (pro
           <TitleTextAtom className="text-pointColor">설 명절 대비 장볼 것</TitleTextAtom>
           <p className="text-fontColor text-lg">장보기를 시작합니다!</p>
         </div>
-        <ProgressBarAtom rate={100} animationDuration={5000} />
+        <ProgressBarAtom rate={100} animationDuration={TIMER_SECONDS * 1000} />
         <DescriptionTextAtom>{`${seconds}초 후 자동으로 시작됩니다`}</DescriptionTextAtom>
 
         <PopupActionWrapperAtom>
