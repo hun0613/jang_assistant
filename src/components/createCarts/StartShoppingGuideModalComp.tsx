@@ -7,18 +7,20 @@ import ProgressBarAtom from '@/atoms/bars/ProgressBarAtom';
 import DescriptionTextAtom from '@/atoms/texts/DescriptionTextAtom';
 import { useRouter } from 'next/navigation';
 
-type StartShoppingGuideModalProps = {} & React.ComponentProps<typeof PopupAtom>;
+type StartShoppingGuideModalProps = {
+  title: string;
+} & React.ComponentProps<typeof PopupAtom>;
 
 const TIMER_SECONDS = 5;
 
 const StartShoppingGuideModalComp: React.FC<StartShoppingGuideModalProps> = (props) => {
-  const { open, handleClose, handleOpen, children, ...rest } = props;
+  const { title, open, handleClose, handleOpen, children, ...rest } = props;
   const [seconds, setSeconds] = useState(999);
 
   const router = useRouter();
 
   const goToShopping = () => {
-    router.push('/shopping');
+    router.push(`/shopping/${title}`);
   };
 
   useEffect(() => {
@@ -48,7 +50,7 @@ const StartShoppingGuideModalComp: React.FC<StartShoppingGuideModalProps> = (pro
       <div className="w-full flex flex-col justify-center items-center gap-7">
         <Image src={'/images/logo.png'} width={50} height={40} alt="logo" />
         <div className="flex flex-col justify-center items-center">
-          <TitleTextAtom className="text-pointColor">설 명절 대비 장볼 것</TitleTextAtom>
+          <TitleTextAtom className="text-pointColor">{title}</TitleTextAtom>
           <p className="text-fontColor text-lg">장보기를 시작합니다!</p>
         </div>
         <ProgressBarAtom rate={100} animationDuration={TIMER_SECONDS * 1000} />

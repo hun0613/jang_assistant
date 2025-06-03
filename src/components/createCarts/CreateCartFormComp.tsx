@@ -61,7 +61,7 @@ const CreateCartFormComp = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(handleStartShopping)} className="flex flex-col gap-5">
+      <form onSubmit={handleSubmit(handleStartShopping)} className="w-full mt-5 flex flex-col gap-5">
         <FormSectionMolecule title={'장바구니 이름'} description={'품목이나 방문할 매장을 고려해서 지어주세요!'} required={true}>
           <InputAtom
             register={{
@@ -89,11 +89,11 @@ const CreateCartFormComp = () => {
             value={watch('memo')}
           />
         </FormSectionMolecule>
-        <ButtonAtom type="submit" full disabled={!watch('title') || cartItems.length === 0}>
+        <ButtonAtom className="mt-5" type="submit" full disabled={!watch('title') || cartItems.length === 0}>
           장보기 시작하기
         </ButtonAtom>
       </form>
-      <StartShoppingGuideModalComp open={open} handleClose={handleClose} handleOpen={handleOpen} />
+      <StartShoppingGuideModalComp title={watch('title')} open={open} handleClose={handleClose} handleOpen={handleOpen} />
     </>
   );
 };

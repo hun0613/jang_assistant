@@ -28,6 +28,9 @@ const config: Config = {
         item: '0px 4px 10px 0px rgba(0, 0, 0, 0.3)',
         icon: '0px 0px 4px 0px rgba(0, 0, 0, 0.25)',
       },
+      backgroundImage: {
+        stickyGradient: 'linear-gradient(to bottom, #f7f7f7 100%, transparent calc(100% - 20px))',
+      },
     },
   },
   plugins: [],
