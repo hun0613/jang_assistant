@@ -3,7 +3,8 @@ import './globals.css';
 import PageAtom from '@/atoms/layouts/PageAtom';
 import Header from '@/components/layouts/Header';
 import Footer from '@/components/layouts/Footer';
-import RouteHandler from '@/components/navigations/RouteHandlerComp';
+import RouteHandler from '@/components/utils/RouteHandlerComp';
+import ScrollToTopOnMountComp from '@/components/utils/ScrollToTopOnMountComp';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <>
       <RouteHandler />
+      <ScrollToTopOnMountComp />
       <html lang="en">
         <body className={'flex justify-center items-center'}>
           <PageAtom>

@@ -1,8 +1,6 @@
 'use client';
 
 import ProgressBarAtom from '@/atoms/bars/ProgressBarAtom';
-import SectionAtom from '@/atoms/layouts/SectionAtom';
-import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
 import TotalPriceSectionComp from './TotalPriceSectionComp';
 import FormSectionMolecule from '@/molecules/forms/FormSectionMolecule';
 import { useFieldArray, useForm } from 'react-hook-form';
