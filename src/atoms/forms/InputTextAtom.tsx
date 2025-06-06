@@ -1,11 +1,13 @@
-type InputAtomProps = {
+import { mergeClassNames } from '@/utils/domUtil';
+
+type InputTextAtomProps = {
   placeholder: string;
   maxLength?: number;
   register: any;
   value: string;
 } & JSX.IntrinsicElements['input'];
 
-const InputAtom: React.FC<InputAtomProps> = (props) => {
+const InputTextAtom: React.FC<InputTextAtomProps> = (props) => {
   const { placeholder, register, maxLength, value, ...rest } = props;
 
   return (
@@ -14,7 +16,7 @@ const InputAtom: React.FC<InputAtomProps> = (props) => {
         {...rest}
         type="text"
         maxLength={maxLength}
-        className="w-full text-lg bg-bgColor p-3 rounded-xl font-BMJUA outline-none"
+        className={mergeClassNames('w-full text-lg bg-bgColor p-3 rounded-xl font-BMJUA outline-none')}
         placeholder={placeholder}
         {...register}
       />
@@ -23,4 +25,4 @@ const InputAtom: React.FC<InputAtomProps> = (props) => {
   );
 };
 
-export default InputAtom;
+export default InputTextAtom;

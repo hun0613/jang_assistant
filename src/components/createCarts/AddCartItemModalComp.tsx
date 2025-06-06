@@ -1,21 +1,18 @@
 import ButtonAtom from '@/atoms/buttons/ButtonAtom';
 import CounterAtom from '@/atoms/forms/CounterAtom';
-import InputAtom from '@/atoms/forms/InputAtom';
+import InputTextAtom from '@/atoms/forms/InputTextAtom';
 import PopupAtom from '@/atoms/popups/PopupAtom';
 import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import FormMolecule from '@/molecules/forms/FormMolecule';
 import { CartItemType } from '@/types/carts/cartType';
 import { localStorageUtil } from '@/utils/storageUtil';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 type AddCartItemModalCompProps = {
   addItem: (item: CartItemType) => void;
 } & React.ComponentProps<typeof PopupAtom>;
 
-export type CartItemInput = {
-  name: string;
-  quantity: number;
-};
+export type CartItemInput = Pick<CartItemType, 'name' | 'quantity'>;
 
 const AddCartItemModalComp: React.FC<AddCartItemModalCompProps> = (props) => {
   const { addItem, open, handleClose, handleOpen, children, ...rest } = props;
@@ -50,7 +47,7 @@ const AddCartItemModalComp: React.FC<AddCartItemModalCompProps> = (props) => {
     <PopupAtom open={open} handleClose={handleClose} handleOpen={handleOpen} {...rest}>
       <div className="w-full flex flex-col gap-2">
         <FormMolecule title="품명" required>
-          <InputAtom register={{ ...register('name') }} placeholder="품명을 입력하세요" maxLength={10} value={watch('name')} />
+          <InputTextAtom register={{ ...register('name') }} placeholder="품명을 입력하세요" maxLength={10} value={watch('name')} />
         </FormMolecule>
 
         <FormMolecule title="수량">

@@ -43,7 +43,7 @@ const ShoppingComp = () => {
         <TotalPriceSectionComp price={123134} />
       </div>
       <FormSectionMolecule title={'사야 할 것'} description={'각 항목을 클릭하여 담기 혹은 뺄 수 있어요!'}>
-        <ShoppingItemListComp shoppingItems={shoppingItems} addItem={append} removeItem={remove} updateItem={update} />
+        <ShoppingItemListComp shoppingItems={shoppingItems} addItem={append} updateItem={update} />
       </FormSectionMolecule>
       <ButtonAtom full className="mt-10">
         완료

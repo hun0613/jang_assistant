@@ -1,7 +1,7 @@
 'use client';
 
 import ButtonAtom from '@/atoms/buttons/ButtonAtom';
-import InputAtom from '@/atoms/forms/InputAtom';
+import InputTextAtom from '@/atoms/forms/InputTextAtom';
 import TextAreaAtom from '@/atoms/forms/TextAreaAtom';
 import FormSectionMolecule from '@/molecules/forms/FormSectionMolecule';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
@@ -63,7 +63,7 @@ const CreateCartFormComp = () => {
     <>
       <form onSubmit={handleSubmit(handleStartShopping)} className="w-full mt-5 flex flex-col gap-5">
         <FormSectionMolecule title={'장바구니 이름'} description={'품목이나 방문할 매장을 고려해서 지어주세요!'} required={true}>
-          <InputAtom
+          <InputTextAtom
             register={{
               ...register('title', {
                 onBlur: handleBlurTitleInput,
