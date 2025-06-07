@@ -5,13 +5,14 @@ import TotalPriceSectionComp from './TotalPriceSectionComp';
 import FormSectionMolecule from '@/molecules/forms/FormSectionMolecule';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { CreateCartInput } from '../createCarts/CreateCartFormComp';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { localStorageUtil } from '@/utils/storageUtil';
 import { CartItemType } from '@/types/carts/cartType';
 import ShoppingItemListComp from './ShoppingItemListComp';
 import useSticky from '@/hooks/scroll/useSticky';
 import { mergeClassNames } from '@/utils/domUtil';
 import ButtonAtom from '@/atoms/buttons/ButtonAtom';
+import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 
 const ShoppingComp = () => {
   const { control, reset } = useForm<Pick<CreateCartInput, 'items'>>({
@@ -23,6 +24,10 @@ const ShoppingComp = () => {
   const { fields: shoppingItems, append, remove, update } = useFieldArray({ control, name: 'items' });
 
   const { onSticky, stickyTargetRef } = useSticky();
+
+  const pickItems = useMemo(() => shoppingItems.filter((item) => item.status === CART_ITEM_STATUS.IN_CART), [shoppingItems]);
+
+  const shoppingProgress = useMemo(() => Math.floor((pickItems.length / shoppingItems.length) * 100), [pickItems]) || 0;
 
   useEffect(() => {
     const items = (localStorageUtil.getArray('cartItems') as CartItemType[]) || [];
@@ -38,9 +43,9 @@ const ShoppingComp = () => {
         })}
       >
         <div className="w-full px-5 py-5">
-          <ProgressBarAtom rate={35} showIcon showRate />
+          <ProgressBarAtom rate={shoppingProgress} showIcon showRate />
         </div>
-        <TotalPriceSectionComp price={123134} />
+        <TotalPriceSectionComp shoppingItems={shoppingItems} />
       </div>
       <FormSectionMolecule title={'사야 할 것'} description={'각 항목을 클릭하여 담기 혹은 뺄 수 있어요!'}>
         <ShoppingItemListComp shoppingItems={shoppingItems} addItem={append} updateItem={update} />

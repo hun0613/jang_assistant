@@ -72,8 +72,11 @@ const ShoppingItemListComp: React.FC<ShoppingItemListCompProps> = (props) => {
         handleClose={handleCloseAddCartItemModal}
       />
       <PickItemModalComp
-        item={shoppingItems[selectItemIndex]}
-        updateItem={updateItem}
+        updateItemOption={{
+          item: shoppingItems[selectItemIndex],
+          updateItem: updateItem,
+          index: selectItemIndex,
+        }}
         open={pickItemModalOpen}
         handleOpen={handleOpenPickItemModal}
         handleClose={handleClosePickItemModal}

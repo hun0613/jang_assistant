@@ -5,6 +5,7 @@ import LabelAtom from '@/atoms/forms/LabelAtom';
 import PopupAtom, { PopupActionWrapperAtom } from '@/atoms/popups/PopupAtom';
 import DescriptionTextAtom from '@/atoms/texts/DescriptionTextAtom';
 import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
+import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import FormMolecule from '@/molecules/forms/FormMolecule';
 import { CartItemType } from '@/types/carts/cartType';
 import Image from 'next/image';
@@ -12,14 +13,18 @@ import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 type PickItemModalCompProps = {
-  item?: CartItemType;
-  updateItem: (index: number, value: CartItemType) => void;
+  updateItemOption: {
+    updateItem: (index: number, value: CartItemType) => void;
+    item?: CartItemType;
+    index: number;
+  };
 } & React.ComponentProps<typeof PopupAtom>;
 
 export type PickItemInput = Pick<CartItemType, 'quantity' | 'price'>;
 
 const PickItemModalComp: React.FC<PickItemModalCompProps> = (props) => {
-  const { item, updateItem, open, handleClose, handleOpen, ...rest } = props;
+  const { updateItemOption, open, handleClose, handleOpen, ...rest } = props;
+  const { item, updateItem, index } = updateItemOption;
 
   const { register, setValue, watch, reset } = useForm<PickItemInput>({
     defaultValues: {
@@ -28,18 +33,30 @@ const PickItemModalComp: React.FC<PickItemModalCompProps> = (props) => {
     },
   });
 
-  useEffect(() => {
-    if (open && !!item) {
-      reset({ quantity: item.quantity, price: item.price || 0 });
-    }
-  }, [item, open]);
-
   const calculateTotalPrice = useMemo(() => {
     const price = watch('price') || 0;
     const quantity = watch('quantity') || 0;
 
     return price * quantity || 0;
   }, [watch('price'), watch('quantity')]);
+
+  const handlePickItem = () => {
+    if (!!item) {
+      updateItem(index, {
+        ...item,
+        quantity: watch('quantity'),
+        price: calculateTotalPrice,
+        status: CART_ITEM_STATUS.IN_CART,
+      });
+    }
+    handleClose();
+  };
+
+  useEffect(() => {
+    if (open && !!item) {
+      reset({ quantity: item.quantity, price: item.price || 0 });
+    }
+  }, [item, open]);
 
   if (!item) return null;
 
@@ -79,7 +96,7 @@ const PickItemModalComp: React.FC<PickItemModalCompProps> = (props) => {
           <ButtonAtom onClick={() => handleClose()} full color={BUTTON_COLOR.GRAY}>
             취소
           </ButtonAtom>
-          <ButtonAtom full disabled={!isNaN(Number(watch('price'))) && !watch('quantity')}>
+          <ButtonAtom onClick={handlePickItem} full disabled={!isNaN(Number(watch('price'))) && !watch('quantity')}>
             담기
           </ButtonAtom>
         </PopupActionWrapperAtom>
