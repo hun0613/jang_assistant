@@ -30,10 +30,31 @@ const InputForm = (args: any) => {
   );
 };
 
+const ReadOnlyForm = (args: any) => {
+  return (
+    <SectionAtom>
+      <TextAreaAtom {...args} />
+    </SectionAtom>
+  );
+};
+
 export const Primary: TextAreaAtomStory = {
   render: (args) => <InputForm {...args} />,
   args: {
     placeholder: '제목을 입력하세요.',
     maxLength: 100,
+  },
+};
+
+/**
+ * 읽기 전용으로써 textArea의 입력값 그대로(줄바꿈등 형식 유지) 출력해주고 싶을 때 사용합니다.
+ */
+export const ReadOnly: TextAreaAtomStory = {
+  render: (args) => <ReadOnlyForm {...args} />,
+  args: {
+    placeholder: '제목을 입력하세요.',
+    maxLength: 100,
+    value: '읽기전용 textArea입니다.\n줄바꿈을 적용할 수 있습니다.',
+    readOnly: true,
   },
 };

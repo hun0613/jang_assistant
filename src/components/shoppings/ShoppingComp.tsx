@@ -5,7 +5,7 @@ import TotalPriceSectionComp from './TotalPriceSectionComp';
 import FormSectionMolecule from '@/molecules/forms/FormSectionMolecule';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { CreateCartInput } from '../createCarts/CreateCartFormComp';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { localStorageUtil } from '@/utils/storageUtil';
 import { CartItemType } from '@/types/carts/cartType';
 import ShoppingItemListComp from './ShoppingItemListComp';
@@ -13,15 +13,18 @@ import useSticky from '@/hooks/scroll/useSticky';
 import { mergeClassNames } from '@/utils/domUtil';
 import ButtonAtom from '@/atoms/buttons/ButtonAtom';
 import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
+import FloatingMemoButtonComp from './FloatingMemoButtonComp';
 
 const ShoppingComp = () => {
+  const [memo, setMemo] = useState('');
+
   const { control, reset } = useForm<Pick<CreateCartInput, 'items'>>({
     defaultValues: {
       items: [],
     },
   });
 
-  const { fields: shoppingItems, append, remove, update } = useFieldArray({ control, name: 'items' });
+  const { fields: shoppingItems, append, update } = useFieldArray({ control, name: 'items' });
 
   const { onSticky, stickyTargetRef } = useSticky();
 
@@ -31,6 +34,8 @@ const ShoppingComp = () => {
 
   useEffect(() => {
     const items = (localStorageUtil.getArray('cartItems') as CartItemType[]) || [];
+    const memo = localStorageUtil.get('memo') || '';
+    setMemo(memo);
     reset({ items });
   }, [reset]);
 
@@ -53,6 +58,7 @@ const ShoppingComp = () => {
       <ButtonAtom full className="mt-10">
         완료
       </ButtonAtom>
+      <FloatingMemoButtonComp memo={memo} />
     </div>
   );
 };
