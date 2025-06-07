@@ -50,7 +50,7 @@ const usePopup = (options: UsePopupParams = { open: false }): { open: boolean; h
         window.document.body.style.overflow = '';
         window.history.back();
       }
-      // setOpen(false);
+      setOpen(false);
     }
   };
 

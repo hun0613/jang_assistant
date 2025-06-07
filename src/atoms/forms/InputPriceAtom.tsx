@@ -22,11 +22,11 @@ const InputPriceAtom: React.FC<InputPriceAtomProps> = (props) => {
   };
 
   return (
-    <div className="w-full flex flex-row justify-center items-center gap-4">
+    <div className="w-full flex flex-row justify-center items-center gap-4 font-BMJUA">
       <input
         type="text"
         inputMode="numeric"
-        className="w-full text-lg bg-bgColor p-3 rounded-xl font-BMJUA outline-none text-right"
+        className="w-full text-lg bg-bgColor p-3 rounded-xl outline-none text-right"
         placeholder={placeholder}
         value={value}
         onChange={handleChangePrice}

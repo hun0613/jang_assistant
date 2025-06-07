@@ -7,6 +7,7 @@ import AddCartItemModalComp from '../createCarts/AddCartItemModalComp';
 import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import { useState } from 'react';
 import PickItemModalComp from './PickItemModalComp';
+import DropItemModalComp from './DropItemModalComp';
 
 type ShoppingItemListCompProps = {
   shoppingItems: CartItemType[];
@@ -80,6 +81,16 @@ const ShoppingItemListComp: React.FC<ShoppingItemListCompProps> = (props) => {
         open={pickItemModalOpen}
         handleOpen={handleOpenPickItemModal}
         handleClose={handleClosePickItemModal}
+      />
+      <DropItemModalComp
+        dropItemOption={{
+          item: shoppingItems[selectItemIndex],
+          dropItem: updateItem,
+          index: selectItemIndex,
+        }}
+        open={dropItemModalOpen}
+        handleOpen={handleOpenDropItemModal}
+        handleClose={handleCloseDropItemModal}
       />
     </>
   );

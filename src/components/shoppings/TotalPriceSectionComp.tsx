@@ -10,8 +10,6 @@ type TotalPriceSectionCompProps = {
 const TotalPriceSectionComp: React.FC<TotalPriceSectionCompProps> = (props) => {
   const { shoppingItems } = props;
 
-  console.log({ shoppingItems });
-
   const totalPrice = useMemo(() => {
     return (
       shoppingItems
