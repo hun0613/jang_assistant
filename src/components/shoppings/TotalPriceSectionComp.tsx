@@ -15,7 +15,7 @@ const TotalPriceSectionComp: React.FC<TotalPriceSectionCompProps> = (props) => {
       shoppingItems
         .filter((item) => item.status === CART_ITEM_STATUS.IN_CART)
         .reduce((acc, cur) => {
-          const currentItemPrice = cur.price || 0;
+          const currentItemPrice = (cur.price || 0) * cur.quantity;
 
           return acc + currentItemPrice;
         }, 0) || 0

@@ -45,7 +45,7 @@ const PickItemModalComp: React.FC<PickItemModalCompProps> = (props) => {
       updateItem(index, {
         ...item,
         quantity: watch('quantity'),
-        price: calculateTotalPrice,
+        price: watch('price'),
         status: CART_ITEM_STATUS.IN_CART,
       });
     }
