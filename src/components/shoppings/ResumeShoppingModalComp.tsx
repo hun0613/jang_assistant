@@ -33,10 +33,10 @@ const ResumeShoppingModalComp: React.FC<ResumeShoppingModalProps> = (props) => {
 
         <PopupActionWrapperAtom>
           <ButtonAtom onClick={handleCancelResume} full color={BUTTON_COLOR.GRAY}>
-            취소
+            아니요
           </ButtonAtom>
           <ButtonAtom onClick={handleResume} full>
-            이어서 장보기
+            예
           </ButtonAtom>
         </PopupActionWrapperAtom>
       </div>
