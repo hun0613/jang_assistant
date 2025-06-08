@@ -33,11 +33,20 @@ const ShoppingComp = () => {
   const shoppingProgress = useMemo(() => Math.floor((pickItems.length / shoppingItems.length) * 100), [pickItems]) || 0;
 
   useEffect(() => {
-    const items = (localStorageUtil.getArray('cartItems') as CartItemType[]) || [];
+    const items = !!localStorageUtil.getArray('shoppingHistory').length
+      ? (localStorageUtil.getArray('shoppingHistory') as CartItemType[])
+      : (localStorageUtil.getArray('cartItems') as CartItemType[]);
+
     const memo = localStorageUtil.get('memo') || '';
     setMemo(memo);
     reset({ items });
   }, [reset]);
+
+  useEffect(() => {
+    if (!!shoppingItems.length) {
+      localStorageUtil.setObject('shoppingHistory', shoppingItems);
+    }
+  }, [shoppingItems]);
 
   return (
     <div className="flex flex-col justify-start items-center">

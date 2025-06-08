@@ -11,6 +11,7 @@ import { localStorageUtil } from '@/utils/storageUtil';
 import { useEffect } from 'react';
 import usePopup from '@/hooks/popup/usePopup';
 import StartShoppingGuideModalComp from './StartShoppingGuideModalComp';
+import ResumeShoppingModalComp from '../shoppings/ResumeShoppingModalComp';
 
 export type CreateCartInput = {
   title: string;
@@ -36,11 +37,20 @@ const CreateCartFormComp = () => {
     name: 'items',
   });
 
-  const { open, handleClose, handleOpen } = usePopup({ id: 'startShoppingGuideModal' });
+  const {
+    open: startShoppingGuideModalOpen,
+    handleClose: handleCloseStartShoppingGuideModal,
+    handleOpen: handleOpenStartShoppingGuideModal,
+  } = usePopup({ id: 'startShoppingGuideModal' });
+
+  const {
+    open: resumeShoppingGuideModalOpen,
+    handleClose: handleCloseResumeShoppingGuideModal,
+    handleOpen: handleOpenResumeShoppingGuideModal,
+  } = usePopup({ id: 'resumeShoppingGuideModal' });
 
   const handleStartShopping: SubmitHandler<CreateCartInput> = (data) => {
-    console.log('장바구니 생성:', data);
-    handleOpen();
+    handleOpenStartShoppingGuideModal();
   };
 
   const handleBlurTitleInput = () => {
@@ -59,8 +69,20 @@ const CreateCartFormComp = () => {
     reset({ title, memo, items });
   }, [reset]);
 
+  useEffect(() => {
+    if (!!localStorageUtil.getArray('shoppingHistory').length) {
+      handleOpenResumeShoppingGuideModal();
+    }
+  }, []);
+
   return (
     <>
+      <ResumeShoppingModalComp
+        title={watch('title')}
+        open={resumeShoppingGuideModalOpen}
+        handleClose={handleCloseResumeShoppingGuideModal}
+        handleOpen={handleOpenResumeShoppingGuideModal}
+      />
       <form onSubmit={handleSubmit(handleStartShopping)} className="w-full mt-5 flex flex-col gap-5">
         <FormSectionMolecule title={'장바구니 이름'} description={'품목이나 방문할 매장을 고려해서 지어주세요!'} required={true}>
           <InputTextAtom
@@ -93,7 +115,12 @@ const CreateCartFormComp = () => {
           장보기 시작하기
         </ButtonAtom>
       </form>
-      <StartShoppingGuideModalComp title={watch('title')} open={open} handleClose={handleClose} handleOpen={handleOpen} />
+      <StartShoppingGuideModalComp
+        title={watch('title')}
+        open={startShoppingGuideModalOpen}
+        handleClose={handleCloseStartShoppingGuideModal}
+        handleOpen={handleOpenStartShoppingGuideModal}
+      />
     </>
   );
 };
