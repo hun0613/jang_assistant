@@ -11,7 +11,7 @@ import { localStorageUtil } from '@/utils/storageUtil';
 import { useEffect } from 'react';
 import usePopup from '@/hooks/popup/usePopup';
 import StartShoppingGuideModalComp from './StartShoppingGuideModalComp';
-import ResumeShoppingModalComp from '../shoppings/ResumeShoppingModalComp';
+import ResumeShoppingModalComp from './ResumeShoppingModalComp';
 
 export type CreateCartInput = {
   title: string;
