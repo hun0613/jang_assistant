@@ -13,14 +13,14 @@ const RouteHandler = (): JSX.Element => {
           window.history.back();
         }
       };
-      // 뒤로가기, 앞으로 가기
-      window.addEventListener('popstate', clearHash);
+      // 해시변경
+      window.addEventListener('hashchange', clearHash);
 
       // 초기 마운트시 실행
       clearHash();
 
       return () => {
-        window.removeEventListener('popstate', clearHash);
+        window.removeEventListener('hashchange', clearHash);
       };
     }
   }, []);

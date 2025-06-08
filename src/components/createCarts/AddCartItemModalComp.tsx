@@ -26,7 +26,7 @@ const AddCartItemModalComp: React.FC<AddCartItemModalCompProps> = (props) => {
 
   const handleAddCartItem = () => {
     const item: CartItemType = {
-      id: Date.now(), // 임시 ID 생성
+      itemId: Date.now(), // 임시 ID 생성
       name: watch('name'),
       quantity: watch('quantity'),
       status: CART_ITEM_STATUS.IN_LIST, // 기본 상태 설정

@@ -43,7 +43,6 @@ const ShoppingItemListComp: React.FC<ShoppingItemListCompProps> = (props) => {
   };
 
   const handleClickItem = (item: CartItemType, index: number) => {
-    // console.log({ item, index });
     setSelectItemIndex(index);
 
     if (item.status === CART_ITEM_STATUS.IN_CART) {
