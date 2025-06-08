@@ -10,7 +10,9 @@ import { localStorageUtil } from '@/utils/storageUtil';
 
 const CreateCartGuideModalComp = () => {
   const showGuideTime = localStorageUtil.get('createCartGuideShown');
-  const shouldShowGuide = !showGuideTime || isAfter(new Date(), addDays(new Date(Number(showGuideTime)), 1));
+  const hasShoppingHistory = !!localStorageUtil.getArray('shoppingHistory').length;
+  const shouldShowGuide =
+    !hasShoppingHistory && (!showGuideTime || (showGuideTime && isAfter(new Date(), addDays(new Date(Number(showGuideTime)), 1))));
 
   const { open, handleOpen, handleClose } = usePopup({ id: 'createCartGuideModal' });
 
