@@ -42,7 +42,7 @@ const CartItemListComp: React.FC<CartItemListCompProps> = (props) => {
           </div>
         )}
         {cartItems.map((item, index) => (
-          <div key={item.itemId} className="flex justify-between items-center gap-2">
+          <div key={item.id} className="flex justify-between items-center gap-2">
             <CartListItemAtom className="pointer-events-none" cartItem={item} />
             <EraseButtonAtom onClick={() => handleDeleteItem(index)} />
           </div>

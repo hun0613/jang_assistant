@@ -1,7 +1,7 @@
 import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 
 export type CartItemType = {
-  itemId: number;
+  id: number;
   name: string;
   quantity: number;
   price?: number;
