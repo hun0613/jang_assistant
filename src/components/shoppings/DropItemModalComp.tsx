@@ -29,7 +29,7 @@ const DropItemModalComp: React.FC<DropItemModalProps> = (props) => {
 
   return (
     <PopupAtom open={open} handleClose={handleClose} handleOpen={handleOpen} {...rest}>
-      <div className="w-full flex flex-col justify-center items-center gap-7">
+      <div className="w-full flex flex-col justify-center items-center gap-5">
         <Image src={'/images/logo.png'} width={50} height={40} alt="logo" />
         <div className="flex flex-col justify-center items-center gap-1">
           <TitleTextAtom className="text-pointColor">{item?.name}</TitleTextAtom>
