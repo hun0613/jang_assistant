@@ -3,6 +3,35 @@ import EndingComp from '@/components/landings/EndingComp';
 import GoToServiceButtonComp from '@/components/landings/GoToServiceButtonComp';
 import TitleComp from '@/components/landings/TitleComp';
 import { mergeClassNames } from '@/utils/domUtil';
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: '장비서:슬기로운 장보기 생활',
+    description: '오프라인 장보기 맞춤 서비스',
+    icons: {
+      icon: [
+        {
+          url: '/images/logo.png',
+          href: '/images/logo.png',
+        },
+      ],
+    },
+    openGraph: {
+      title: '장비서:슬기로운 장보기 생활',
+      description: '오프라인 장보기 맞춤 서비스',
+      url: 'https://jang-assistant.vercel.app/',
+      siteName: 'Jang-Assistant',
+      images: [
+        {
+          url: '/images/brandImage.jpg',
+          width: 1920,
+          height: 1080,
+        },
+      ],
+    },
+  };
+}
 
 export default function Home() {
   return (
