@@ -1,4 +1,5 @@
 import ShoppingComp from '@/components/shoppings/ShoppingComp';
+import NoDataHandler from '@/components/utils/NoDataHandlerComp';
 import PageTemplate from '@/templates/layouts/PageTemplate';
 
 const ShoppingPage = ({ params }: { params: { id: string } }) => {
@@ -6,6 +7,7 @@ const ShoppingPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
+      <NoDataHandler />
       <PageTemplate title={decodeURIComponent(id)} titleUnderline>
         <ShoppingComp />
       </PageTemplate>
