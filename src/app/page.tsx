@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'Jang-Assistant',
       images: [
         {
-          url: '/images/brandImage.jpg',
+          url: 'https://jang-assistant.vercel.app/images/brandImage.jpg',
           width: 1920,
           height: 1080,
         },
