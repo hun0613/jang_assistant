@@ -5,6 +5,7 @@ import Header from '@/components/layouts/Header';
 import Footer from '@/components/layouts/Footer';
 import RouteHandler from '@/components/utils/RouteHandlerComp';
 import ScrollToTopOnMountComp from '@/components/utils/ScrollToTopOnMountComp';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,6 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
+      <Analytics />
       <RouteHandler />
       <ScrollToTopOnMountComp />
       <html lang="en">
