@@ -19,11 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <Analytics />
       <RouteHandler />
       <ScrollToTopOnMountComp />
       <html lang="en">
         <body className={'flex justify-center items-center'}>
+          <Analytics />
           <PageAtom>
             <Header />
             {children}
