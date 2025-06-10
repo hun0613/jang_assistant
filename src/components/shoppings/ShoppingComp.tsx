@@ -16,6 +16,7 @@ import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import FloatingMemoButtonComp from './FloatingMemoButtonComp';
 import usePopup from '@/hooks/popup/usePopup';
 import CompleteShoppingGuideModalComp from './CompleteShoppingGuideModalComp';
+import ShoppingUsageGuideModalComp from './ShoppingUsageGuideModalComp';
 
 const ShoppingComp = () => {
   const { control, reset, watch } = useForm<CreateCartInput>({
@@ -32,6 +33,12 @@ const ShoppingComp = () => {
     handleOpen: handleOpenCompleteShoppingGuideModal,
   } = usePopup({ id: 'completeShoppingGuideModal' });
 
+  const {
+    open: shoppingUsageGuideModalOpen,
+    handleClose: handleCloseShoppingUsageGuideModal,
+    handleOpen: handleOpenShoppingUsageGuideModal,
+  } = usePopup({ id: 'shoppingUsageGuideModal' });
+
   const { fields: shoppingItems, append, update } = useFieldArray({ control, name: 'items' });
 
   const { onSticky, stickyTargetRef } = useSticky();
@@ -39,10 +46,17 @@ const ShoppingComp = () => {
   const pickItems = useMemo(() => shoppingItems.filter((item) => item.status === CART_ITEM_STATUS.IN_CART), [shoppingItems]);
 
   const shoppingProgress = useMemo(() => Math.floor((pickItems.length / shoppingItems.length) * 100), [pickItems]) || 0;
+  const shouldShowShoppingUsageGuide = !localStorageUtil.get('shoppingUsageGuideShown');
 
   const handleClickComplete = () => {
     handleOpenCompleteShoppingGuideModal();
   };
+
+  useEffect(() => {
+    if (shouldShowShoppingUsageGuide) {
+      handleOpenShoppingUsageGuideModal();
+    }
+  }, []);
 
   useEffect(() => {
     const items = !!localStorageUtil.getArray('shoppingHistory').length
@@ -89,6 +103,11 @@ const ShoppingComp = () => {
         open={completeShoppingGuideModalOpen}
         handleClose={handleCloseCompleteShoppingGuideModal}
         handleOpen={handleOpenCompleteShoppingGuideModal}
+      />
+      <ShoppingUsageGuideModalComp
+        open={shoppingUsageGuideModalOpen}
+        handleClose={handleCloseShoppingUsageGuideModal}
+        handleOpen={handleOpenShoppingUsageGuideModal}
       />
     </>
   );
