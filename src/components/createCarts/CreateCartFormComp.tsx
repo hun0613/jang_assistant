@@ -61,13 +61,6 @@ const CreateCartFormComp = () => {
     localStorageUtil.set('memo', watch('memo'));
   };
 
-  const handleKeyUpTitleInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      e.currentTarget.blur();
-    }
-  };
-
   useEffect(() => {
     const title = localStorageUtil.get('title') || '';
     const memo = localStorageUtil.get('memo') || '';
@@ -90,6 +83,12 @@ const CreateCartFormComp = () => {
         handleClose={handleCloseResumeShoppingGuideModal}
         handleOpen={handleOpenResumeShoppingGuideModal}
       />
+      <StartShoppingGuideModalComp
+        title={watch('title')}
+        open={startShoppingGuideModalOpen}
+        handleClose={handleCloseStartShoppingGuideModal}
+        handleOpen={handleOpenStartShoppingGuideModal}
+      />
       <form onSubmit={handleSubmit(handleStartShopping)} className="w-full mt-5 flex flex-col gap-5">
         <FormSectionMolecule title={'장바구니 이름'} description={'품목이나 방문할 매장을 고려해서 지어주세요!'} required={true}>
           <InputTextAtom
@@ -98,7 +97,6 @@ const CreateCartFormComp = () => {
                 onBlur: handleBlurTitleInput,
               }),
             }}
-            onKeyUp={handleKeyUpTitleInput}
             placeholder="장바구니 이름을 입력하세요."
             maxLength={20}
             value={watch('title')}
@@ -123,12 +121,6 @@ const CreateCartFormComp = () => {
           장보기 시작하기
         </ButtonAtom>
       </form>
-      <StartShoppingGuideModalComp
-        title={watch('title')}
-        open={startShoppingGuideModalOpen}
-        handleClose={handleCloseStartShoppingGuideModal}
-        handleOpen={handleOpenStartShoppingGuideModal}
-      />
     </>
   );
 };
