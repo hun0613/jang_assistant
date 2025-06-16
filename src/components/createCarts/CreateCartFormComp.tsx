@@ -61,7 +61,7 @@ const CreateCartFormComp = () => {
     localStorageUtil.set('memo', watch('memo'));
   };
 
-  const handleKeyDownTitleInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyUpTitleInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       e.currentTarget.blur();
@@ -98,7 +98,7 @@ const CreateCartFormComp = () => {
                 onBlur: handleBlurTitleInput,
               }),
             }}
-            onKeyDown={handleKeyDownTitleInput}
+            onKeyUp={handleKeyUpTitleInput}
             placeholder="장바구니 이름을 입력하세요."
             maxLength={20}
             value={watch('title')}
