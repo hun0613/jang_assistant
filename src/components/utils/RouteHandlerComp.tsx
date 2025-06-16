@@ -8,6 +8,9 @@ const RouteHandler = (): JSX.Element => {
     const window = getWindow();
     if (window) {
       const clearHash = (): void => {
+        // popup이 Open되면서 설정된 overflow hidden을 풀어줍니다.
+        window.document.body.style.overflow = '';
+
         const url = new URL(getWindow()?.location.href || '');
         if (url.hash) {
           window.history.back();
