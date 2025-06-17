@@ -6,7 +6,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import ProgressBarAtom from './ProgressBarAtom';
 
 const meta = {
-  title: 'Atomic/Bar/ProgressBar',
+  title: 'Atomic/Bars/Bar',
   component: ProgressBarAtom,
   tags: ['autodocs'],
 } satisfies Meta<typeof ProgressBarAtom>;
@@ -25,7 +25,7 @@ const ProgressBarTemplate = (args: any) => {
 /**
  * ProgressBar는 rate가 올라갈 때 transition이 적용되어 애니메이션 효과를 줍니다.
  */
-export const Primary: ProgressBarAtomStory = {
+export const ProgressBar: ProgressBarAtomStory = {
   render: (args) => <ProgressBarTemplate {...args} />,
   args: {
     rate: 10,
@@ -44,7 +44,5 @@ export const Timer: ProgressBarAtomStory = {
   args: {
     rate: 100,
     animationDuration: 5000, // 5 seconds
-    // showIcon: true,
-    // showRate: true,
   },
 };

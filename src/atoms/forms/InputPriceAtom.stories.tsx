@@ -4,7 +4,7 @@ import InputPriceAtom from './InputPriceAtom';
 import { useForm } from 'react-hook-form';
 
 const meta: Meta<typeof InputPriceAtom> = {
-  title: 'Atomic/Form/InputPrice',
+  title: 'Atomic/Forms/InputPrice',
   component: InputPriceAtom,
   tags: ['autodocs'],
 };
@@ -30,6 +30,10 @@ const InputForm = (args: any) => {
   );
 };
 
+/**
+ * 가격을 입력하는 Atom Component 입니다. <br/>
+ * input 창에 focus를 했을 때, 효율적인 입력을 위해 내부 숫자가 모두 선택됩니다.
+ */
 export const Primary: InputPriceAtomStory = {
   render: (args) => <InputForm {...args} />,
   args: {

@@ -2,7 +2,7 @@ import { mergeClassNames } from '@/utils/domUtil';
 
 type InputTextAtomProps = {
   placeholder: string;
-  maxLength?: number;
+  maxLength: number;
   register: any;
   value: string;
 } & JSX.IntrinsicElements['input'];

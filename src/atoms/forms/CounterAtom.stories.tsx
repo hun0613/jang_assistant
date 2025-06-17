@@ -6,7 +6,7 @@ import PageAtom from '../layouts/PageAtom';
 import PageTemplate from '@/templates/layouts/PageTemplate';
 
 const meta: Meta<typeof CounterAtom> = {
-  title: 'Atomic/Form/Counter',
+  title: 'Atomic/Forms/Counter',
   component: CounterAtom,
   tags: ['autodocs'],
 };
@@ -41,6 +41,10 @@ const CounterTemplate = (args: any) => {
   );
 };
 
+/**
+ * 1부터 1씩 증가, 감소하는 카운터 입니다. <br/>
+ * 주로 수량 체크에 쓰이는 Atom 컴포넌트입니다.
+ */
 export const Primary: CounterAtomStory = {
   render: () => <CounterTemplate />,
 };

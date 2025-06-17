@@ -5,7 +5,7 @@ import PageAtom from '../layouts/PageAtom';
 import usePopup from '@/hooks/popup/usePopup';
 
 const meta: Meta<typeof PopupAtom> = {
-  title: 'Atomic/Popup',
+  title: 'Atomic/Popups/Popup',
   component: PopupAtom,
   tags: ['autodocs'],
 };
@@ -31,12 +31,18 @@ const PopupTemplates = (args: any) => {
             </ButtonAtom>
           </PopupActionWrapperAtom>
         </PopupAtom>
-        <ButtonAtom onClick={handleClickOpen}>팝업</ButtonAtom>
+        <ButtonAtom className="mt-10" onClick={handleClickOpen}>
+          팝업
+        </ButtonAtom>
       </PageAtom>
     </div>
   );
 };
 
+/**
+ * 팝업에 사용되는 컴포넌트 입니다. <br/>
+ * usePopup 훅을 사용해서 컨트롤해야하고, 팝업 내 닫힘, 열림 버튼은 PopupActionWrapperAtom으로 감싸줘야합니다.
+ */
 export const Primary: PopupAtomStory = {
   render: (args) => <PopupTemplates {...args} />,
   args: {},

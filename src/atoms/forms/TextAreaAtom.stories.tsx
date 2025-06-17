@@ -4,7 +4,7 @@ import TextAreaAtom from './TextAreaAtom';
 import { useForm } from 'react-hook-form';
 
 const meta: Meta<typeof TextAreaAtom> = {
-  title: 'Atomic/Form/TextArea',
+  title: 'Atomic/Forms/TextArea',
   component: TextAreaAtom,
   tags: ['autodocs'],
 };
@@ -38,6 +38,10 @@ const ReadOnlyForm = (args: any) => {
   );
 };
 
+/**
+ * 장문의 텍스트가 들어갈 TextArea Atom Component입니다.<br/>
+ * 글자수 제한 표시 기능이 포합되어 있습니다.
+ */
 export const Primary: TextAreaAtomStory = {
   render: (args) => <InputForm {...args} />,
   args: {

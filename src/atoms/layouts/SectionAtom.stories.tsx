@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import SectionAtom from './SectionAtom';
 
 const meta: Meta<typeof SectionAtom> = {
-  title: 'Atomic/Layout/Section',
+  title: 'Atomic/Layouts/Section',
   component: SectionAtom,
   tags: ['autodocs'],
 };
@@ -16,6 +16,9 @@ const Template: SectionAtomStory = {
   },
 };
 
+/**
+ * 페이지의 섹션 요소들을 감싸주는 컴포넌트 입니다.
+ */
 export const Primary: SectionAtomStory = {
   ...Template,
 };
