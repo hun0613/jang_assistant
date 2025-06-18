@@ -37,7 +37,7 @@ const ButtonAtom: React.FC<ButtonAtomProps> = (props) => {
     <button
       type={type}
       className={mergeClassNames(
-        'px-6 font-BMJUA bg-pointColor/10 text-white text-xl leading-none rounded-xl relative flex justify-center items-center',
+        'px-6 font-BMJUA bg-pointColor text-white text-xl leading-none rounded-xl relative flex justify-center items-center',
         {
           'bg-grayBtnColor text-white': color === BUTTON_COLOR.GRAY,
           'py-3': size === BUTTON_SIZE.SMALL,
