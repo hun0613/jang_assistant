@@ -14,7 +14,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8 # 원하는 pnpm 버전 명시
+          version: 10 # 원하는 pnpm 버전 명시
 
       - name: Set Node.js version
         uses: actions/setup-node@v4
