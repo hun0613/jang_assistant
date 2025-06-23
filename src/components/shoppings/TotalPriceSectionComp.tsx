@@ -4,23 +4,21 @@ import { CartItemType } from '@/types/carts/cartType';
 import { useMemo } from 'react';
 
 type TotalPriceSectionCompProps = {
-  shoppingItems: CartItemType[];
+  pickedShoppingItems: CartItemType[];
 } & React.ComponentProps<typeof SectionAtom>;
 
 const TotalPriceSectionComp: React.FC<TotalPriceSectionCompProps> = (props) => {
-  const { shoppingItems } = props;
+  const { pickedShoppingItems } = props;
 
   const totalPrice = useMemo(() => {
     return (
-      shoppingItems
-        .filter((item) => item.status === CART_ITEM_STATUS.IN_CART)
-        .reduce((acc, cur) => {
-          const currentItemPrice = (cur.price || 0) * cur.quantity;
+      pickedShoppingItems.reduce((acc, cur) => {
+        const currentItemPrice = (cur.price || 0) * cur.quantity;
 
-          return acc + currentItemPrice;
-        }, 0) || 0
+        return acc + currentItemPrice;
+      }, 0) || 0
     );
-  }, [shoppingItems]);
+  }, [pickedShoppingItems]);
 
   return (
     <SectionAtom className="mt-5 flex flex-row justify-between">

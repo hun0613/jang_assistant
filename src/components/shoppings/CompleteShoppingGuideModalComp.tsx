@@ -12,17 +12,13 @@ import { useMemo } from 'react';
 
 type CompleteShoppingGuideModalProps = {
   title: string;
-  shoppingItems: CartItemType[];
+  unPickedShoppintItems: CartItemType[];
 } & React.ComponentProps<typeof PopupAtom>;
 
 const CompleteShoppingGuideModalComp: React.FC<CompleteShoppingGuideModalProps> = (props) => {
-  const { title, shoppingItems, open, handleClose, handleOpen, ...rest } = props;
+  const { title, unPickedShoppintItems, open, handleClose, handleOpen, ...rest } = props;
 
   const router = useRouter();
-
-  const inCartItems = useMemo(() => {
-    return shoppingItems.filter((item) => item.status === CART_ITEM_STATUS.IN_LIST);
-  }, [shoppingItems]);
 
   const handleClickComplete = () => {
     localStorageUtil.remove('title');
@@ -44,12 +40,12 @@ const CompleteShoppingGuideModalComp: React.FC<CompleteShoppingGuideModalProps> 
         </div>
         <LabelAtom title="미구매 품목" description="카트에 담지 않은 품목을 확인해주세요!" />
         <div className="w-full flex flex-col justify-start items-center h-40 overflow-auto p-3 gap-1">
-          {inCartItems.length === 0 && (
+          {unPickedShoppintItems.length === 0 && (
             <div className="w-full h-full flex justify-center items-center text-grayBtnColor text-lg">모든 물품을 담으셨습니다:)</div>
           )}
 
-          {inCartItems.length > 0 &&
-            inCartItems.map((item, index) => {
+          {unPickedShoppintItems.length > 0 &&
+            unPickedShoppintItems.map((item, index) => {
               return <SimpleListItemComp key={`${item.id}_${index}`} name={item.name} quantity={item.quantity} />;
             })}
         </div>
