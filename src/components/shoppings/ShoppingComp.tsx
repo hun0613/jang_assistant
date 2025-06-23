@@ -39,13 +39,15 @@ const ShoppingComp = () => {
     handleOpen: handleOpenShoppingUsageGuideModal,
   } = usePopup({ id: 'shoppingUsageGuideModal' });
 
-  const { fields: shoppingItems, append, update } = useFieldArray({ control, name: 'items' });
+  const { fields: shoppingItems, append, update, replace } = useFieldArray({ control, name: 'items' });
 
   const { onSticky, stickyTargetRef } = useSticky();
 
-  const pickItems = useMemo(() => shoppingItems.filter((item) => item.status === CART_ITEM_STATUS.IN_CART), [shoppingItems]);
+  const pickedItems = useMemo(() => shoppingItems.filter((item) => item.status === CART_ITEM_STATUS.IN_CART), [shoppingItems]);
+  const unPickedItems = useMemo(() => shoppingItems.filter((item) => item.status === CART_ITEM_STATUS.IN_LIST), [shoppingItems]);
 
-  const shoppingProgress = useMemo(() => Math.floor((pickItems.length / shoppingItems.length) * 100), [pickItems]) || 0;
+  const shoppingProgress = useMemo(() => Math.floor((pickedItems.length / shoppingItems.length) * 100), [pickedItems]) || 0;
+
   const shouldShowShoppingUsageGuide = !localStorageUtil.get('shoppingUsageGuideShown');
 
   const handleClickComplete = () => {
@@ -70,6 +72,12 @@ const ShoppingComp = () => {
   }, [reset]);
 
   useEffect(() => {
+    const sortedItems = [...unPickedItems, ...pickedItems];
+
+    if (JSON.stringify(shoppingItems) !== JSON.stringify(sortedItems)) {
+      replace(sortedItems);
+    }
+
     if (!!shoppingItems.length) {
       localStorageUtil.setObject('shoppingHistory', shoppingItems);
     }
@@ -87,19 +95,19 @@ const ShoppingComp = () => {
           <div className="w-full px-5 py-5">
             <ProgressBarAtom rate={shoppingProgress} showIcon showRate />
           </div>
-          <TotalPriceSectionComp shoppingItems={shoppingItems} />
+          <TotalPriceSectionComp pickedShoppingItems={pickedItems} />
         </div>
         <FormSectionMolecule title={'사야 할 것'} description={'각 항목을 클릭하여 담기 혹은 뺄 수 있어요!'}>
           <ShoppingItemListComp shoppingItems={shoppingItems} addItem={append} updateItem={update} />
         </FormSectionMolecule>
-        <ButtonAtom onClick={handleClickComplete} disabled={pickItems.length < 1} full className="mt-10">
+        <ButtonAtom onClick={handleClickComplete} disabled={pickedItems.length < 1} full className="mt-10">
           완료
         </ButtonAtom>
         <FloatingMemoButtonComp memo={watch('memo')} />
       </div>
       <CompleteShoppingGuideModalComp
         title={watch('title')}
-        shoppingItems={shoppingItems}
+        unPickedShoppintItems={unPickedItems}
         open={completeShoppingGuideModalOpen}
         handleClose={handleCloseCompleteShoppingGuideModal}
         handleOpen={handleOpenCompleteShoppingGuideModal}
