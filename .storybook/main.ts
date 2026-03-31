@@ -15,6 +15,10 @@ const config: StorybookConfig = {
     "name": "@storybook/experimental-nextjs-vite",
     "options": {}
   },
+  viteFinal: (config) => {
+    config.publicDir = false;
+    return config;
+  },
   "staticDirs": [
     "../public"
   ]
