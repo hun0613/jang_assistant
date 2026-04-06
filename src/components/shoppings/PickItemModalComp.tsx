@@ -11,6 +11,7 @@ import { CartItemType } from '@/types/carts/cartType';
 import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { updateCartItem } from '@/actions/cartItems/cartItemActions';
 
 type PickItemModalCompProps = {
   updateItemOption: {
@@ -40,14 +41,16 @@ const PickItemModalComp: React.FC<PickItemModalCompProps> = (props) => {
     return price * quantity || 0;
   }, [watch('price'), watch('quantity')]);
 
-  const handlePickItem = () => {
+  const handlePickItem = async () => {
     if (!!item) {
-      updateItem(index, {
-        ...item,
+      const updates = {
         quantity: watch('quantity'),
         price: watch('price'),
         status: CART_ITEM_STATUS.IN_CART,
-      });
+      };
+
+      await updateCartItem(item.id, updates);
+      updateItem(index, { ...item, ...updates });
     }
     handleClose();
   };

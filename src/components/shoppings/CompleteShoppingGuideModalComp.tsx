@@ -3,28 +3,29 @@ import LabelAtom from '@/atoms/forms/LabelAtom';
 import PopupAtom, { PopupActionWrapperAtom } from '@/atoms/popups/PopupAtom';
 import DescriptionTextAtom from '@/atoms/texts/DescriptionTextAtom';
 import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
-import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import { CartItemType } from '@/types/carts/cartType';
-import { localStorageUtil } from '@/utils/storageUtil';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { updateCart } from '@/actions/carts/cartActions';
+import { CART_STATUS } from '@/enums/carts/cartEnums';
+import { localStorageUtil } from '@/utils/storageUtil';
 
 type CompleteShoppingGuideModalProps = {
+  cartId: number;
   title: string;
   unPickedShoppintItems: CartItemType[];
 } & React.ComponentProps<typeof PopupAtom>;
 
 const CompleteShoppingGuideModalComp: React.FC<CompleteShoppingGuideModalProps> = (props) => {
-  const { title, unPickedShoppintItems, open, handleClose, handleOpen, ...rest } = props;
+  const { cartId, title, unPickedShoppintItems, open, handleClose, handleOpen, ...rest } = props;
 
   const router = useRouter();
 
-  const handleClickComplete = () => {
-    localStorageUtil.remove('title');
-    localStorageUtil.remove('memo');
-    localStorageUtil.remove('cartItems');
-    localStorageUtil.remove('shoppingHistory');
+  const handleClickComplete = async () => {
+    if (cartId && !isNaN(cartId)) {
+      await updateCart(cartId, { status: CART_STATUS.COMPLETED });
+    }
+    localStorageUtil.remove('shoppingCartId');
 
     window.open('https://forms.gle/et8g1iFNKRQtUZgs5', '_blank');
     router.push('/');

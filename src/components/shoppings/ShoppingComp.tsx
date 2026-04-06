@@ -17,8 +17,14 @@ import FloatingMemoButtonComp from './FloatingMemoButtonComp';
 import usePopup from '@/hooks/popup/usePopup';
 import CompleteShoppingGuideModalComp from './CompleteShoppingGuideModalComp';
 import ShoppingUsageGuideModalComp from './ShoppingUsageGuideModalComp';
+import { useParams } from 'next/navigation';
+import { getCartById } from '@/actions/carts/cartActions';
+import { createCartItem, getCartItemsByCartId } from '@/actions/cartItems/cartItemActions';
 
 const ShoppingComp = () => {
+  const params = useParams();
+  const cartId = Number(params?.id);
+
   const { control, reset, watch } = useForm<CreateCartInput>({
     defaultValues: {
       title: '',
@@ -39,7 +45,7 @@ const ShoppingComp = () => {
     handleOpen: handleOpenShoppingUsageGuideModal,
   } = usePopup({ id: 'shoppingUsageGuideModal' });
 
-  const { fields: shoppingItems, append, update, replace } = useFieldArray({ control, name: 'items' });
+  const { fields: shoppingItems, append, update, replace } = useFieldArray({ control, name: 'items', keyName: 'key' });
 
   const { onSticky, stickyTargetRef } = useSticky();
 
@@ -54,6 +60,12 @@ const ShoppingComp = () => {
     handleOpenCompleteShoppingGuideModal();
   };
 
+  const handleAddItem = async (name: string, quantity: number) => {
+    if (!cartId || isNaN(cartId)) return;
+    const created = (await createCartItem(cartId, name, quantity)) as CartItemType;
+    append(created);
+  };
+
   useEffect(() => {
     if (shouldShowShoppingUsageGuide) {
       handleOpenShoppingUsageGuideModal();
@@ -61,25 +73,23 @@ const ShoppingComp = () => {
   }, []);
 
   useEffect(() => {
-    const items = !!localStorageUtil.getArray('shoppingHistory').length
-      ? (localStorageUtil.getArray('shoppingHistory') as CartItemType[])
-      : (localStorageUtil.getArray('cartItems') as CartItemType[]);
+    if (!cartId || isNaN(cartId)) return;
 
-    const title = localStorageUtil.get('title') || '';
-    const memo = localStorageUtil.get('memo') || '';
+    const loadCart = async () => {
+      const cart = await getCartById(cartId);
+      const items = (await getCartItemsByCartId(cartId)) as CartItemType[];
 
-    reset({ items, title, memo });
-  }, [reset]);
+      reset({ items, title: cart?.title || '', memo: cart?.memo || '' });
+    };
+
+    loadCart();
+  }, [cartId, reset]);
 
   useEffect(() => {
     const sortedItems = [...unPickedItems, ...pickedItems];
 
     if (JSON.stringify(shoppingItems) !== JSON.stringify(sortedItems)) {
       replace(sortedItems);
-    }
-
-    if (!!shoppingItems.length) {
-      localStorageUtil.setObject('shoppingHistory', shoppingItems);
     }
   }, [shoppingItems]);
 
@@ -98,7 +108,7 @@ const ShoppingComp = () => {
           <TotalPriceSectionComp pickedShoppingItems={pickedItems} />
         </div>
         <FormSectionMolecule title={'사야 할 것'} description={'각 항목을 클릭하여 담기 혹은 뺄 수 있어요!'}>
-          <ShoppingItemListComp shoppingItems={shoppingItems} addItem={append} updateItem={update} />
+          <ShoppingItemListComp shoppingItems={shoppingItems} onAddItem={handleAddItem} updateItem={update} />
         </FormSectionMolecule>
         <ButtonAtom onClick={handleClickComplete} disabled={pickedItems.length < 1} full className="mt-10">
           완료
@@ -106,6 +116,7 @@ const ShoppingComp = () => {
         <FloatingMemoButtonComp memo={watch('memo')} />
       </div>
       <CompleteShoppingGuideModalComp
+        cartId={cartId}
         title={watch('title')}
         unPickedShoppintItems={unPickedItems}
         open={completeShoppingGuideModalOpen}

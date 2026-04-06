@@ -1,15 +1,29 @@
 'use client';
 
-import { localStorageUtil } from '@/utils/storageUtil';
-import { notFound } from 'next/navigation';
+import { getCartById } from '@/actions/carts/cartActions';
+import { notFound, useParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 const NoDataHandler = () => {
-  useEffect(() => {
-    const data = localStorageUtil.getArray('cartItems').length || undefined;
+  const params = useParams();
+  const cartId = Number(params?.id);
 
-    if (!data) notFound();
-  }, []);
+  useEffect(() => {
+    if (!cartId || isNaN(cartId)) {
+      notFound();
+    }
+
+    const verify = async () => {
+      try {
+        const cart = await getCartById(cartId);
+        if (!cart) notFound();
+      } catch {
+        notFound();
+      }
+    };
+
+    verify();
+  }, [cartId]);
 
   return <></>;
 };

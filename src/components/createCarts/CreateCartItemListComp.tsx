@@ -6,29 +6,20 @@ import AddCartItemModalComp from './AddCartItemModalComp';
 import usePopup from '@/hooks/popup/usePopup';
 import { CartItemType } from '@/types/carts/cartType';
 import Image from 'next/image';
-import { localStorageUtil } from '@/utils/storageUtil';
 
 type CartItemListCompProps = {
   cartItems: CartItemType[];
-  addItem: (item: CartItemType) => void;
-  removeItem: (index: number) => void;
+  onAddItem: (name: string, quantity: number) => Promise<void>;
+  onRemoveItem: (index: number, itemId: number) => Promise<void>;
 } & JSX.IntrinsicElements['div'];
 
 const CartItemListComp: React.FC<CartItemListCompProps> = (props) => {
-  const { cartItems, addItem, removeItem } = props;
+  const { cartItems, onAddItem, onRemoveItem } = props;
 
   const { open, handleOpen, handleClose } = usePopup({ id: 'addCartItemModal' });
 
   const handleOpenAddItemPopup = () => {
     handleOpen();
-  };
-
-  const handleDeleteItem = (index: number) => {
-    removeItem(index);
-    // localStorage에서 해당 품목 제거
-    const cartItems = localStorageUtil.getArray('cartItems') || [];
-    cartItems.splice(index, 1);
-    localStorageUtil.setObject('cartItems', cartItems);
   };
 
   return (
@@ -44,14 +35,14 @@ const CartItemListComp: React.FC<CartItemListCompProps> = (props) => {
         {cartItems.map((item, index) => (
           <div key={item.id} className="flex justify-between items-center gap-2">
             <CartListItemAtom className="pointer-events-none" cartItem={item} />
-            <EraseButtonAtom onClick={() => handleDeleteItem(index)} />
+            <EraseButtonAtom onClick={() => onRemoveItem(index, item.id)} />
           </div>
         ))}
         <ButtonAtom onClick={handleOpenAddItemPopup} full className="bg-pointColor/80">
           + 품목 추가
         </ButtonAtom>
       </div>
-      <AddCartItemModalComp addItem={addItem} open={open} handleOpen={handleOpen} handleClose={handleClose} />
+      <AddCartItemModalComp onAddItem={onAddItem} open={open} handleOpen={handleOpen} handleClose={handleClose} />
     </>
   );
 };

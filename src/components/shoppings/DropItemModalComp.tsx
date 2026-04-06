@@ -4,6 +4,7 @@ import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
 import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import { CartItemType } from '@/types/carts/cartType';
 import Image from 'next/image';
+import { updateCartItem } from '@/actions/cartItems/cartItemActions';
 
 type DropItemModalProps = {
   dropItemOption: {
@@ -17,8 +18,9 @@ const DropItemModalComp: React.FC<DropItemModalProps> = (props) => {
   const { dropItemOption, open, handleClose, handleOpen, ...rest } = props;
   const { dropItem, item, index } = dropItemOption;
 
-  const handleDropItem = () => {
+  const handleDropItem = async () => {
     if (!!item) {
+      await updateCartItem(item.id, { status: CART_ITEM_STATUS.IN_LIST });
       dropItem(index, {
         ...item,
         status: CART_ITEM_STATUS.IN_LIST,

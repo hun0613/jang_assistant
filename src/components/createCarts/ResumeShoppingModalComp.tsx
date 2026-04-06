@@ -2,24 +2,30 @@ import Image from 'next/image';
 import PopupAtom, { PopupActionWrapperAtom } from '@/atoms/popups/PopupAtom';
 import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
 import ButtonAtom, { BUTTON_COLOR } from '@/atoms/buttons/ButtonAtom';
-import { localStorageUtil } from '@/utils/storageUtil';
 import { useRouter } from 'next/navigation';
+import { updateCart } from '@/actions/carts/cartActions';
+import { CART_STATUS } from '@/enums/carts/cartEnums';
+import { localStorageUtil } from '@/utils/storageUtil';
 
 type ResumeShoppingModalProps = {
-  title: string;
+  shoppingCartId: number | null;
 } & React.ComponentProps<typeof PopupAtom>;
 
 const ResumeShoppingModalComp: React.FC<ResumeShoppingModalProps> = (props) => {
-  const { title, open, handleClose, handleOpen, ...rest } = props;
+  const { shoppingCartId, open, handleClose, handleOpen, ...rest } = props;
   const router = useRouter();
 
-  const handleCancelResume = () => {
-    localStorageUtil.remove('shoppingHistory');
+  const handleCancelResume = async () => {
+    if (shoppingCartId) {
+      await updateCart(shoppingCartId, { status: CART_STATUS.COMPLETED });
+    }
+    localStorageUtil.remove('shoppingCartId');
     handleClose();
   };
 
   const handleResume = () => {
-    router.push(`/shopping/${title}`);
+    if (!shoppingCartId) return;
+    router.push(`/shopping/${shoppingCartId}`);
   };
 
   return (

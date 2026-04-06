@@ -6,21 +6,29 @@ import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
 import ProgressBarAtom from '@/atoms/bars/ProgressBarAtom';
 import DescriptionTextAtom from '@/atoms/texts/DescriptionTextAtom';
 import { useRouter } from 'next/navigation';
+import { updateCart } from '@/actions/carts/cartActions';
+import { CART_STATUS } from '@/enums/carts/cartEnums';
+import { localStorageUtil } from '@/utils/storageUtil';
 
 type StartShoppingGuideModalProps = {
+  cartId: number | null;
   title: string;
 } & React.ComponentProps<typeof PopupAtom>;
 
 const TIMER_SECONDS = 5;
 
 const StartShoppingGuideModalComp: React.FC<StartShoppingGuideModalProps> = (props) => {
-  const { title, open, handleClose, handleOpen, children, ...rest } = props;
+  const { cartId, title, open, handleClose, handleOpen, children, ...rest } = props;
   const [seconds, setSeconds] = useState(999);
 
   const router = useRouter();
 
-  const goToShopping = () => {
-    router.push(`/shopping/${title}`);
+  const goToShopping = async () => {
+    if (!cartId) return;
+    await updateCart(cartId, { status: CART_STATUS.SHOPPING });
+    localStorageUtil.set('shoppingCartId', String(cartId));
+    localStorageUtil.remove('draftCartId');
+    router.push(`/shopping/${cartId}`);
   };
 
   useEffect(() => {
