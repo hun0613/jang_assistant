@@ -11,12 +11,12 @@ import DropItemModalComp from './DropItemModalComp';
 
 type ShoppingItemListCompProps = {
   shoppingItems: CartItemType[];
-  addItem: (item: CartItemType) => void;
+  onAddItem: (name: string, quantity: number) => Promise<void>;
   updateItem: (index: number, value: CartItemType) => void;
 } & JSX.IntrinsicElements['div'];
 
 const ShoppingItemListComp: React.FC<ShoppingItemListCompProps> = (props) => {
-  const { shoppingItems, addItem, updateItem } = props;
+  const { shoppingItems, onAddItem, updateItem } = props;
 
   const [selectItemIndex, setSelectItemIndex] = useState(999);
 
@@ -66,7 +66,7 @@ const ShoppingItemListComp: React.FC<ShoppingItemListCompProps> = (props) => {
         </ButtonAtom>
       </div>
       <AddCartItemModalComp
-        addItem={addItem}
+        onAddItem={onAddItem}
         open={addCartItemModalOpen}
         handleOpen={handleOpenAddCartItemModal}
         handleClose={handleCloseAddCartItemModal}
