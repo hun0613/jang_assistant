@@ -1,8 +1,10 @@
 import { getCartById } from '@/actions/carts/cartActions';
+import { getCartItemsByCartId } from '@/actions/cartItems/cartItemActions';
 import ShoppingComp from '@/components/shoppings/ShoppingComp';
-import NoDataHandler from '@/components/utils/NoDataHandlerComp';
+import { CartItemType, CartType } from '@/types/carts/cartType';
 import PageTemplate from '@/templates/layouts/PageTemplate';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const { id } = params;
@@ -43,23 +45,26 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 const ShoppingPage = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
-  let title = '';
+  const cartId = Number(params.id);
+
+  if (!cartId || isNaN(cartId)) notFound();
+
+  let cart: CartType;
+  let items: CartItemType[];
 
   try {
-    const cart = await getCartById(Number(id));
-    title = cart?.title || '';
+    [cart, items] = await Promise.all([
+      getCartById(cartId) as Promise<CartType>,
+      getCartItemsByCartId(cartId) as Promise<CartItemType[]>,
+    ]);
   } catch {
-    title = '';
+    notFound();
   }
 
   return (
-    <>
-      <NoDataHandler />
-      <PageTemplate title={title} titleUnderline>
-        <ShoppingComp />
-      </PageTemplate>
-    </>
+    <PageTemplate title={cart.title || ''} titleUnderline>
+      <ShoppingComp cartId={cartId} initialCart={cart} initialItems={items} />
+    </PageTemplate>
   );
 };
 

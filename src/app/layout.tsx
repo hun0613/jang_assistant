@@ -4,6 +4,7 @@ import './globals.css';
 import PageAtom from '@/atoms/layouts/PageAtom';
 import Header from '@/components/layouts/Header';
 import Footer from '@/components/layouts/Footer';
+import { BackButtonProvider } from '@/hooks/header/useBackButton';
 import RouteHandler from '@/components/utils/RouteHandlerComp';
 import ScrollToTopOnMountComp from '@/components/utils/ScrollToTopOnMountComp';
 import { Analytics } from '@vercel/analytics/next';
@@ -48,11 +49,13 @@ export default function RootLayout({
         </head>
         <body className={'flex justify-center items-center'}>
           <Analytics />
-          <PageAtom>
-            <Header />
-            {children}
-            <Footer />
-          </PageAtom>
+          <BackButtonProvider>
+            <PageAtom>
+              <Header />
+              {children}
+              <Footer />
+            </PageAtom>
+          </BackButtonProvider>
         </body>
       </html>
     </>

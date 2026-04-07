@@ -7,7 +7,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { CreateCartInput } from '../createCarts/CreateCartFormComp';
 import { useEffect, useMemo } from 'react';
 import { localStorageUtil } from '@/utils/storageUtil';
-import { CartItemType } from '@/types/carts/cartType';
+import { CartItemType, CartType } from '@/types/carts/cartType';
 import ShoppingItemListComp from './ShoppingItemListComp';
 import useSticky from '@/hooks/scroll/useSticky';
 import { mergeClassNames } from '@/utils/domUtil';
@@ -17,19 +17,20 @@ import FloatingMemoButtonComp from './FloatingMemoButtonComp';
 import usePopup from '@/hooks/popup/usePopup';
 import CompleteShoppingGuideModalComp from './CompleteShoppingGuideModalComp';
 import ShoppingUsageGuideModalComp from './ShoppingUsageGuideModalComp';
-import { useParams } from 'next/navigation';
-import { getCartById } from '@/actions/carts/cartActions';
-import { createCartItem, getCartItemsByCartId } from '@/actions/cartItems/cartItemActions';
+import { createCartItem } from '@/actions/cartItems/cartItemActions';
 
-const ShoppingComp = () => {
-  const params = useParams();
-  const cartId = Number(params?.id);
+type ShoppingCompProps = {
+  cartId: number;
+  initialCart: CartType;
+  initialItems: CartItemType[];
+};
 
-  const { control, reset, watch } = useForm<CreateCartInput>({
+const ShoppingComp: React.FC<ShoppingCompProps> = ({ cartId, initialCart, initialItems }) => {
+  const { control, watch } = useForm<CreateCartInput>({
     defaultValues: {
-      title: '',
-      items: [],
-      memo: '',
+      title: initialCart.title || '',
+      items: initialItems,
+      memo: initialCart.memo || '',
     },
   });
 
@@ -61,7 +62,6 @@ const ShoppingComp = () => {
   };
 
   const handleAddItem = async (name: string, quantity: number) => {
-    if (!cartId || isNaN(cartId)) return;
     const created = (await createCartItem(cartId, name, quantity)) as CartItemType;
     append(created);
   };
@@ -71,19 +71,6 @@ const ShoppingComp = () => {
       handleOpenShoppingUsageGuideModal();
     }
   }, []);
-
-  useEffect(() => {
-    if (!cartId || isNaN(cartId)) return;
-
-    const loadCart = async () => {
-      const cart = await getCartById(cartId);
-      const items = (await getCartItemsByCartId(cartId)) as CartItemType[];
-
-      reset({ items, title: cart?.title || '', memo: cart?.memo || '' });
-    };
-
-    loadCart();
-  }, [cartId, reset]);
 
   useEffect(() => {
     const sortedItems = [...unPickedItems, ...pickedItems];

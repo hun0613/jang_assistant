@@ -1,14 +1,16 @@
 'use client';
 
 import BackButtonAtom from '@/atoms/buttons/BackButtonAtom';
+import useBackButton from '@/hooks/header/useBackButton';
 import { mergeClassNames } from '@/utils/domUtil';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const pathname = usePathname();
+  const { hidden } = useBackButton();
 
-  const showBackButton = pathname !== '/';
+  const showBackButton = pathname !== '/' && !hidden;
 
   return (
     <div className={mergeClassNames('sticky top-0 px-5 z-50 py-3 w-full bg-white')}>
