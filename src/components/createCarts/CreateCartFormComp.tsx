@@ -126,9 +126,12 @@ const CreateCartFormComp = () => {
       if (!storedDraftId) return;
 
       try {
-        const cart = await getCartById(Number(storedDraftId));
+        const draftId = Number(storedDraftId);
+        const [cart, items] = await Promise.all([
+          getCartById(draftId),
+          getCartItemsByCartId(draftId) as Promise<CartItemType[]>,
+        ]);
         if (cart && cart.status === CART_STATUS.CREATED) {
-          const items = (await getCartItemsByCartId(cart.id)) as CartItemType[];
           cartIdRef.current = cart.id;
           setCartId(cart.id);
           reset({ title: cart.title || '', memo: cart.memo || '', items });
