@@ -2,11 +2,19 @@
 
 import ButtonAtom from '@/atoms/buttons/ButtonAtom';
 import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
+import useBackButton from '@/hooks/header/useBackButton';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function NotFound() {
   const router = useRouter();
+  const { hideBackButton, showBackButton } = useBackButton();
+
+  useEffect(() => {
+    hideBackButton();
+    return () => showBackButton();
+  }, [hideBackButton, showBackButton]);
 
   const handleClickGoHome = () => {
     router.push('/');
