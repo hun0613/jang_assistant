@@ -12,8 +12,9 @@
 | 이슈 번호 | Title | Description | 상태 |
 |-----------|-------|-------------|------|
 | #43 | 커스텀 404 페이지 구현 | 존재하지 않는 경로 접근 시 보여줄 커스텀 not-found 페이지 디자인 및 구현. 홈으로 돌아가기 버튼 포함 | ✅ 완료 |
+| #47 | Vercel Function Region 서울(icn1)로 변경 | Vercel Function Region(iad1)과 Supabase DB Region(ap-northeast-2) 불일치로 인한 네트워크 레이턴시 해소. vercel.json 설정 추가 | ⬜ 미착수 |
 | #44 | API 로딩 스피너 구현 | API pending 상태 시 보여줄 SpinnerAtom 컴포넌트 개발. 주요 인터랙션에 적용 | ⬜ 미착수 |
 
 ## 작업 순서
 
-`#43` → `#44`
+`#43` → `#47` → `#44`
