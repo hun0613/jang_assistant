@@ -9,7 +9,7 @@ import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import FormMolecule from '@/molecules/forms/FormMolecule';
 import { CartItemType } from '@/types/carts/cartType';
 import Image from 'next/image';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { updateCartItem } from '@/actions/cartItems/cartItemActions';
 
@@ -27,6 +27,8 @@ const PickItemModalComp: React.FC<PickItemModalCompProps> = (props) => {
   const { updateItemOption, open, handleClose, handleOpen, ...rest } = props;
   const { item, updateItem, index } = updateItemOption;
 
+  const [loading, setLoading] = useState(false);
+
   const { register, setValue, watch, reset } = useForm<PickItemInput>({
     defaultValues: {
       quantity: 0,
@@ -43,16 +45,21 @@ const PickItemModalComp: React.FC<PickItemModalCompProps> = (props) => {
 
   const handlePickItem = async () => {
     if (!!item) {
-      const updates = {
-        quantity: watch('quantity'),
-        price: watch('price'),
-        status: CART_ITEM_STATUS.IN_CART,
-      };
+      setLoading(true);
+      try {
+        const updates = {
+          quantity: watch('quantity'),
+          price: watch('price'),
+          status: CART_ITEM_STATUS.IN_CART,
+        };
 
-      await updateCartItem(item.id, updates);
-      updateItem(index, { ...item, ...updates });
+        await updateCartItem(item.id, updates);
+        updateItem(index, { ...item, ...updates });
+        handleClose();
+      } finally {
+        setLoading(false);
+      }
     }
-    handleClose();
   };
 
   useEffect(() => {
@@ -99,7 +106,7 @@ const PickItemModalComp: React.FC<PickItemModalCompProps> = (props) => {
           <ButtonAtom onClick={() => handleClose()} full color={BUTTON_COLOR.GRAY}>
             취소
           </ButtonAtom>
-          <ButtonAtom onClick={handlePickItem} full disabled={!isNaN(Number(watch('price'))) && !watch('quantity')}>
+          <ButtonAtom onClick={handlePickItem} full disabled={!isNaN(Number(watch('price'))) && !watch('quantity')} loading={loading}>
             담기
           </ButtonAtom>
         </PopupActionWrapperAtom>

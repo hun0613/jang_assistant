@@ -2,6 +2,7 @@ import Image from 'next/image';
 import PopupAtom, { PopupActionWrapperAtom } from '@/atoms/popups/PopupAtom';
 import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
 import ButtonAtom, { BUTTON_COLOR } from '@/atoms/buttons/ButtonAtom';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { updateCart } from '@/actions/carts/cartActions';
 import { CART_STATUS } from '@/enums/carts/cartEnums';
@@ -14,13 +15,19 @@ type ResumeShoppingModalProps = {
 const ResumeShoppingModalComp: React.FC<ResumeShoppingModalProps> = (props) => {
   const { shoppingCartId, open, handleClose, handleOpen, ...rest } = props;
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleCancelResume = async () => {
-    if (shoppingCartId) {
-      await updateCart(shoppingCartId, { status: CART_STATUS.COMPLETED });
+    setLoading(true);
+    try {
+      if (shoppingCartId) {
+        await updateCart(shoppingCartId, { status: CART_STATUS.COMPLETED });
+      }
+      localStorageUtil.remove('shoppingCartId');
+      handleClose();
+    } finally {
+      setLoading(false);
     }
-    localStorageUtil.remove('shoppingCartId');
-    handleClose();
   };
 
   const handleResume = () => {
@@ -38,7 +45,7 @@ const ResumeShoppingModalComp: React.FC<ResumeShoppingModalProps> = (props) => {
         </div>
 
         <PopupActionWrapperAtom>
-          <ButtonAtom onClick={handleCancelResume} full color={BUTTON_COLOR.GRAY}>
+          <ButtonAtom onClick={handleCancelResume} full color={BUTTON_COLOR.GRAY} loading={loading}>
             아니요
           </ButtonAtom>
           <ButtonAtom onClick={handleResume} full>

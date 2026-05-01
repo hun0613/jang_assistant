@@ -20,15 +20,21 @@ const TIMER_SECONDS = 5;
 const StartShoppingGuideModalComp: React.FC<StartShoppingGuideModalProps> = (props) => {
   const { cartId, title, open, handleClose, handleOpen, children, ...rest } = props;
   const [seconds, setSeconds] = useState(999);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   const goToShopping = async () => {
     if (!cartId) return;
-    await updateCart(cartId, { status: CART_STATUS.SHOPPING });
-    localStorageUtil.set('shoppingCartId', String(cartId));
-    localStorageUtil.remove('draftCartId');
-    router.push(`/shopping/${cartId}`);
+    setLoading(true);
+    try {
+      await updateCart(cartId, { status: CART_STATUS.SHOPPING });
+      localStorageUtil.set('shoppingCartId', String(cartId));
+      localStorageUtil.remove('draftCartId');
+      router.push(`/shopping/${cartId}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -68,7 +74,7 @@ const StartShoppingGuideModalComp: React.FC<StartShoppingGuideModalProps> = (pro
           <ButtonAtom full color={BUTTON_COLOR.GRAY} onClick={() => handleClose()}>
             취소
           </ButtonAtom>
-          <ButtonAtom full onClick={() => goToShopping()}>
+          <ButtonAtom full onClick={() => goToShopping()} loading={loading}>
             시작
           </ButtonAtom>
         </PopupActionWrapperAtom>

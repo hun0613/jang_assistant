@@ -4,6 +4,7 @@ import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
 import { CART_ITEM_STATUS } from '@/enums/carts/cartEnums';
 import { CartItemType } from '@/types/carts/cartType';
 import Image from 'next/image';
+import { useState } from 'react';
 import { updateCartItem } from '@/actions/cartItems/cartItemActions';
 
 type DropItemModalProps = {
@@ -17,16 +18,22 @@ type DropItemModalProps = {
 const DropItemModalComp: React.FC<DropItemModalProps> = (props) => {
   const { dropItemOption, open, handleClose, handleOpen, ...rest } = props;
   const { dropItem, item, index } = dropItemOption;
+  const [loading, setLoading] = useState(false);
 
   const handleDropItem = async () => {
     if (!!item) {
-      await updateCartItem(item.id, { status: CART_ITEM_STATUS.IN_LIST });
-      dropItem(index, {
-        ...item,
-        status: CART_ITEM_STATUS.IN_LIST,
-      });
+      setLoading(true);
+      try {
+        await updateCartItem(item.id, { status: CART_ITEM_STATUS.IN_LIST });
+        dropItem(index, {
+          ...item,
+          status: CART_ITEM_STATUS.IN_LIST,
+        });
+        handleClose();
+      } finally {
+        setLoading(false);
+      }
     }
-    handleClose();
   };
 
   return (
@@ -42,7 +49,7 @@ const DropItemModalComp: React.FC<DropItemModalProps> = (props) => {
           <ButtonAtom onClick={() => handleClose()} full color={BUTTON_COLOR.GRAY}>
             취소
           </ButtonAtom>
-          <ButtonAtom onClick={handleDropItem} full>
+          <ButtonAtom onClick={handleDropItem} full loading={loading}>
             빼기
           </ButtonAtom>
         </PopupActionWrapperAtom>

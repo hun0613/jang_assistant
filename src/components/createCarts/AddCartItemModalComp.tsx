@@ -46,7 +46,7 @@ const AddCartItemModalComp: React.FC<AddCartItemModalCompProps> = (props) => {
         <FormMolecule title="수량">
           <CounterAtom value={watch('quantity')} control={{ fieldName: 'quantity', setValue }} />
         </FormMolecule>
-        <ButtonAtom onClick={handleAddCartItem} disabled={!watch('name') || submitting} className="mt-5">
+        <ButtonAtom onClick={handleAddCartItem} disabled={!watch('name')} loading={submitting} className="mt-5">
           추가
         </ButtonAtom>
       </div>
