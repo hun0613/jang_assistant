@@ -73,3 +73,25 @@ export const ImageButton: ButtonAtomStory = {
     className: 'bg-white border text-fontColor',
   },
 };
+
+/**
+ * API 요청 중(pending) 상태의 버튼입니다. <br/>
+ * 스피너가 표시되며 클릭이 차단됩니다.
+ */
+export const LoadingButton: ButtonAtomStory = {
+  args: {
+    children: '버튼',
+    loading: true,
+  },
+};
+
+/**
+ * 회색 버튼의 로딩 상태입니다.
+ */
+export const LoadingGrayButton: ButtonAtomStory = {
+  args: {
+    children: '버튼',
+    color: BUTTON_COLOR.GRAY,
+    loading: true,
+  },
+};

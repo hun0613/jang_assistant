@@ -5,6 +5,7 @@ import DescriptionTextAtom from '@/atoms/texts/DescriptionTextAtom';
 import TitleTextAtom from '@/atoms/texts/TitleTextAtom';
 import { CartItemType } from '@/types/carts/cartType';
 import Image from 'next/image';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { updateCart } from '@/actions/carts/cartActions';
 import { CART_STATUS } from '@/enums/carts/cartEnums';
@@ -20,15 +21,21 @@ const CompleteShoppingGuideModalComp: React.FC<CompleteShoppingGuideModalProps> 
   const { cartId, title, unPickedShoppintItems, open, handleClose, handleOpen, ...rest } = props;
 
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleClickComplete = async () => {
-    if (cartId && !isNaN(cartId)) {
-      await updateCart(cartId, { status: CART_STATUS.COMPLETED });
-    }
-    localStorageUtil.remove('shoppingCartId');
+    setLoading(true);
+    try {
+      if (cartId && !isNaN(cartId)) {
+        await updateCart(cartId, { status: CART_STATUS.COMPLETED });
+      }
+      localStorageUtil.remove('shoppingCartId');
 
-    window.open('https://forms.gle/et8g1iFNKRQtUZgs5', '_blank');
-    router.push('/');
+      window.open('https://forms.gle/et8g1iFNKRQtUZgs5', '_blank');
+      router.push('/');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,7 +63,7 @@ const CompleteShoppingGuideModalComp: React.FC<CompleteShoppingGuideModalProps> 
           <ButtonAtom onClick={() => handleClose()} full color={BUTTON_COLOR.GRAY}>
             취소
           </ButtonAtom>
-          <ButtonAtom onClick={handleClickComplete} full>
+          <ButtonAtom onClick={handleClickComplete} full loading={loading}>
             종료
           </ButtonAtom>
         </PopupActionWrapperAtom>
