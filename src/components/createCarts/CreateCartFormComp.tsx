@@ -16,6 +16,7 @@ import { getOrCreateSessionId } from '@/utils/sessionUtil';
 import { createCart, getCartById, updateCart } from '@/actions/carts/cartActions';
 import { createCartItem, deleteCartItem, getCartItemsByCartId } from '@/actions/cartItems/cartItemActions';
 import { CART_STATUS } from '@/enums/carts/cartEnums';
+import SpinnerAtom, { SPINNER_SIZE } from '@/atoms/spinners/SpinnerAtom';
 
 export type CreateCartInput = {
   title: string;
@@ -30,6 +31,7 @@ const CreateCartFormComp = () => {
   const cartIdRef = useRef<number | null>(null);
   const [cartId, setCartId] = useState<number | null>(null);
   const [shoppingCartId, setShoppingCartId] = useState<number | null>(null);
+  const [restoring, setRestoring] = useState(false);
   const ensurePromiseRef = useRef<Promise<number> | null>(null);
 
   const { register, watch, handleSubmit, control, reset } = useForm<CreateCartInput>({
@@ -125,6 +127,7 @@ const CreateCartFormComp = () => {
       const storedDraftId = localStorageUtil.get(DRAFT_CART_ID_KEY);
       if (!storedDraftId) return;
 
+      setRestoring(true);
       try {
         const draftId = Number(storedDraftId);
         const [cart, items] = await Promise.all([
@@ -140,6 +143,8 @@ const CreateCartFormComp = () => {
         }
       } catch {
         localStorageUtil.remove(DRAFT_CART_ID_KEY);
+      } finally {
+        setRestoring(false);
       }
     };
 
@@ -170,6 +175,11 @@ const CreateCartFormComp = () => {
 
   return (
     <>
+      {restoring && (
+        <div className="fixed inset-0 z-[9999] flex justify-center items-center bg-black/40">
+          <SpinnerAtom size={SPINNER_SIZE.LARGE} color="white" />
+        </div>
+      )}
       <ResumeShoppingModalComp
         shoppingCartId={shoppingCartId}
         open={resumeShoppingGuideModalOpen}
