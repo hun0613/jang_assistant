@@ -16,7 +16,8 @@
 | #49 | preferredRegion='icn1' 설정 롤백 | Hobby 플랜에서 사용 불가능한 preferredRegion 설정 제거 | ✅ 완료 |
 | #50 | Supabase 리전 이전 (ap-northeast-2 → us-east-1) | Vercel iad1과 같은 리전으로 Supabase 이전하여 네트워크 레이턴시 해소 | ✅ 완료 |
 | #44 | API 로딩 스피너 구현 | API pending 상태 시 보여줄 SpinnerAtom 컴포넌트 개발. 주요 인터랙션에 적용 | ✅ 완료 |
+| #54 | draft 복원 시 로딩 오버레이 추가 | 장바구니 생성 페이지 진입 시 이전 draft cart 데이터 복원 중 dim + 스피너 표시 | ✅ 완료 |
 
 ## 작업 순서
 
-`#43` → `#47` → `#49` → `#50` → `#44`
+`#43` → `#47` → `#49` → `#50` → `#44` → `#54`
